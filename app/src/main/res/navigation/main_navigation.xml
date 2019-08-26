@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/main_navigation" app:startDestination="@id/homeFragment">
+
+    <fragment android:id="@+id/homeFragment" android:name="com.matsuda.chichibu.view.PickupFragment"
+              android:label="HomeFragment">
+        <action android:id="@+id/action_homeFragment_to_detailFragment" app:destination="@id/detailFragment"/>
+    </fragment>
+    <fragment android:id="@+id/detailFragment" android:name="com.matsuda.chichibu.view.DetailFragment"
+              android:label="DetailFragment">
+        <argument android:name="articleId"
+                  android:defaultValue="0"
+                  app:argType="integer"/>
+    </fragment>
+
+    <fragment
+            android:id="@+id/navigation_home"
+            android:name="com.matsuda.chichibu.view.PickupFragment"
+            android:label="@string/title_home"
+            />
+
+    <fragment
+            android:id="@+id/navigation_dashboard"
+            android:name="com.matsuda.chichibu.view.PickupFragment"
+            android:label="@string/title_dashboard"
+            />
+
+    <fragment
+            android:id="@+id/navigation_notifications"
+            android:name="com.matsuda.chichibu.view.PickupFragment"
+            android:label="@string/title_notifications" />
+</navigation>
