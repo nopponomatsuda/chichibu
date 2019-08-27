@@ -3,7 +3,7 @@ package com.matsuda.chichibu
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import com.matsuda.chichibu.view.ViewPagerFragment
+import com.matsuda.chichibu.view.home.ViewPagerFragment
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

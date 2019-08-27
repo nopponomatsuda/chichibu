@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common
+package com.matsuda.chichibu.common.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

@@ -7,7 +7,7 @@ import com.matsuda.chichibu.actions.PickupAction
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 
-class HomeStore : Store() {
+class PickupStore : Store() {
     val pickUpList: ObservableList<BaseObservable> = ObservableArrayList()
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -17,3 +17,4 @@ class HomeStore : Store() {
     }
     // add receiving actions functions
 }
+

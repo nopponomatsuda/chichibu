@@ -1,7 +1,8 @@
-package com.matsuda.chichibu.view
+package com.matsuda.chichibu.view.home.pages
 
 import androidx.databinding.BaseObservable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +17,16 @@ import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.PickupFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
-import com.matsuda.chichibu.stores.HomeStore
+import com.matsuda.chichibu.stores.PickupStore
+import com.matsuda.chichibu.view.navigator.ViewNavigator
+import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
 class PickupFragment : Fragment() {
-    private var homeStore = HomeStore()
+    companion object {
+        private const val TAG = "PickupFragment"
+    }
+
+    private var homeStore = PickupStore()
     private var binding: PickupFragmentBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +39,7 @@ class PickupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Log.d(TAG, "onCreateView")
         binding = DataBindingUtil.inflate(
             inflater, R.layout.pickup_fragment,
             container, false
@@ -40,17 +48,8 @@ class PickupFragment : Fragment() {
         ActionsCreator.fetchPickups()
 
         binding?.pickUpList?.run {
-            layoutManager = GridLayoutManager(context, 6).apply {
-                spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-                    override fun getSpanSize(position: Int): Int {
-                        //TODO define each position's span size other or this class
-                        return when (position % 6) {
-                            0 -> 6
-                            1, 2, 3, 4 -> 3
-                            else -> 3
-                        }
-                    }
-                }
+            layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
+                spanSizeLookup = CustomSpanSizeLookup.Pickup
             }
             adapter = MasonryAdapter(context, homeStore.pickUpList).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
@@ -59,18 +58,10 @@ class PickupFragment : Fragment() {
                         val articleId = bundleOf(Constant.BUNDLE_KEY_DETAIL_ID to data.id)
 //                        Navigation.findNavController(this@run)
 //                            .navigate(R.id.action_homeFragment_to_detailFragment, articleId)
-
-                        val fragmentTransaction = fragmentManager?.beginTransaction() ?: return
-                        fragmentTransaction.addToBackStack(null).add(
-                            R.id.fragment_container,
-                            DetailFragment.newInstance(data.id)
-                        ).setCustomAnimations(
-                            android.R.anim.slide_in_left,
-                            android.R.anim.slide_out_right
-                        ).commit()
+                        val fragmentManager = fragmentManager ?: return
+                        ViewNavigator.moveToDetail(fragmentManager, data.id)
                     }
                 }
-
             }
         }
         return binding?.root

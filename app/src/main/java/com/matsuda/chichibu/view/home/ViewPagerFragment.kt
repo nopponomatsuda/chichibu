@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.view
+package com.matsuda.chichibu.view.home
 
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +10,9 @@ import com.matsuda.chichibu.R
 import kotlinx.android.synthetic.main.view_pager_fragment.*
 
 class ViewPagerFragment : Fragment() {
+    companion object {
+        private const val TAG = "ViewPagerFragment"
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -21,8 +24,10 @@ class ViewPagerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         Log.d("DEBUG", "onActivityCreated")
         super.onActivityCreated(savedInstanceState)
-        val fragmentManager = fragmentManager ?: return
-        viewPager.adapter = TabAdapter(fragmentManager)
-        tabLayout.setupWithViewPager(viewPager)
+        if (savedInstanceState == null) {
+            val fragmentManager = fragmentManager ?: return
+            viewPager.adapter = TabAdapter(fragmentManager)
+            tabLayout.setupWithViewPager(viewPager)
+        }
     }
 }

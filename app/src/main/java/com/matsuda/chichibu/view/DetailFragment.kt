@@ -55,6 +55,12 @@ class DetailFragment : Fragment() {
         //TODO if budle value is null, show error or back to previous page
         val detailId = arguments?.getInt(Constant.BUNDLE_KEY_DETAIL_ID) ?: return null
         ActionsCreator.showDetail(detailId)
+
+        binding?.root?.setOnTouchListener{ _, _ ->
+            //prevent bottom layer view from receiving above layer view's event
+            true
+        }
+
         return binding?.root
     }
 
