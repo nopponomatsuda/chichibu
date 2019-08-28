@@ -44,19 +44,4 @@
                 android:id="@+id/action_pickupFragment_pop"
                 app:popUpTo="@+id/viewPagerFragment" />
     </fragment>
-
-    <fragment
-            android:id="@+id/navigation_home"
-            android:name="com.matsuda.chichibu.view.article.MyPageViewPagerFragment"
-            android:label="@string/title_home" />
-
-    <fragment
-            android:id="@+id/navigation_dashboard"
-            android:name="com.matsuda.chichibu.view.MypageFragment"
-            android:label="@string/title_mypage" />
-
-    <fragment
-            android:id="@+id/navigation_notifications"
-            android:name="com.matsuda.chichibu.view.LoginFragment"
-            android:label="@string/title_login" />
 </navigation>

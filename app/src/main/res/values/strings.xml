@@ -1,4 +1,8 @@
 <resources>
+    <!-- TODO move following ids to other file -->
+    <string name="facebook_app_id">1231231231232123123</string>
+    <string name="fb_login_protocol_scheme">fb1231231231232123123</string>
+
     <string name="app_name">Chichibu</string>
     <string name="title_home">Home</string>
     <string name="title_mypage">MyPage</string>

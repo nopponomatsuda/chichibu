@@ -54,6 +54,17 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:4.9.0"
     kapt 'com.github.bumptech.glide:compiler:4.9.0'
 
+    // Mobile Client for initializing the SDK
+    implementation ('com.amazonaws:aws-android-sdk-mobile-client:2.7.+@aar') { transitive = true }
+
+    // Facebook SignIn
+    implementation 'com.android.support:support-v4:24.+'
+    implementation ('com.amazonaws:aws-android-sdk-auth-facebook:2.7.+@aar') { transitive = true }
+
+    // Sign in UI
+    implementation 'com.android.support:appcompat-v7:24.+'
+    implementation ('com.amazonaws:aws-android-sdk-auth-ui:2.7.+@aar') { transitive = true }
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
