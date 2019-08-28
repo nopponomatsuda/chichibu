@@ -1,10 +1,10 @@
 package com.matsuda.chichibu.api
 
 import com.matsuda.chichibu.data.Article
-import com.matsuda.chichibu.data.Pickups
+import com.matsuda.chichibu.data.Articles
 
 object PickupClient {
-    fun fetchPickups(): Pickups {
+    fun fetchPickups(): Articles {
         val pickups = mutableListOf<Article>()
         pickups.add(
             Article(
@@ -55,6 +55,6 @@ object PickupClient {
             )
         )
 
-        return Pickups(pickups)
+        return Articles(pickups)
     }
 }

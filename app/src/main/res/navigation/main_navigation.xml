@@ -6,7 +6,7 @@
 
     <fragment
             android:id="@+id/viewPagerFragment"
-            android:name="com.matsuda.chichibu.view.home.ViewPagerFragment"
+            android:name="com.matsuda.chichibu.view.article.MyPageViewPagerFragment"
             android:label="ViewPagerFragment">
         <action
                 android:id="@+id/action_viewPagerFragment_to_detailFragment"
@@ -20,7 +20,7 @@
 
     <fragment
             android:id="@+id/pickupFragment"
-            android:name="com.matsuda.chichibu.view.home.pages.PickupFragment"
+            android:name="com.matsuda.chichibu.view.article.pages.MypagePickupFragment"
             android:label="PickupFragment">
         <action
                 android:id="@+id/action_pickupFragment_to_detailFragment"
@@ -47,13 +47,13 @@
 
     <fragment
             android:id="@+id/navigation_home"
-            android:name="com.matsuda.chichibu.view.home.ViewPagerFragment"
+            android:name="com.matsuda.chichibu.view.article.MyPageViewPagerFragment"
             android:label="@string/title_home" />
 
     <fragment
             android:id="@+id/navigation_dashboard"
             android:name="com.matsuda.chichibu.view.MypageFragment"
-            android:label="@string/title_dashboard" />
+            android:label="@string/title_mypage" />
 
     <fragment
             android:id="@+id/navigation_notifications"

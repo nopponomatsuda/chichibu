@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Chichibu</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_mypage">MyPage</string>
     <string name="title_login">Login</string>
+    <string name="title_logout">Logout</string>
+    <string name="title_search">Search</string>
+
+    <string name="article_pickup_fragment_tab_name">pickup</string>
+    <string name="article_food_fragment_tab_name">food</string>
+    <string name="article_event_fragment_tab_name">event</string>
+    <string name="article_news_fragment_tab_name">news</string>
 </resources>

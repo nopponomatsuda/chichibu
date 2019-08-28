@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">秩父</string>
+    <string name="title_home">探す</string>
+    <string name="title_mypage">マイページ</string>
+    <string name="title_login">ログイン</string>
+    <string name="title_logout">ログアウト</string>
+    <string name="title_search">検索</string>
+
+    <string name="article_pickup_fragment_tab_name">ピックアップ</string>
+    <string name="article_food_fragment_tab_name">食べ物</string>
+    <string name="article_event_fragment_tab_name">イベント</string>
+    <string name="article_news_fragment_tab_name">ニュース</string>
+</resources>

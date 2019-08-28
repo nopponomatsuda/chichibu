@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common.view
+package com.matsuda.chichibu.view.parts
 
 import android.content.Context
 import androidx.databinding.BaseObservable
@@ -9,10 +9,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ObservableList
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.matsuda.chichibu.BR
-import com.matsuda.chichibu.R
+import com.matsuda.chichibu.view.parts.ObservableRecyclerAdapter
 
-class MasonryAdapter(context: Context, private val recyclerItems: ObservableList<BaseObservable>) :
+class MasonryAdapter(
+    context: Context,
+    private val recyclerItems: ObservableList<BaseObservable>,
+    private val itemViewResourceId: Int,
+    private val variableId: Int
+) :
     ObservableRecyclerAdapter<MasonryAdapter.MasonryViewBindingHolder>
         (context, recyclerItems) {
 
@@ -21,7 +25,7 @@ class MasonryAdapter(context: Context, private val recyclerItems: ObservableList
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MasonryViewBindingHolder {
         val inflater = LayoutInflater.from(parent.context)
         val viewDataBinding: ViewDataBinding =
-            DataBindingUtil.inflate(inflater, R.layout.list_item_view, parent, false)
+            DataBindingUtil.inflate(inflater, itemViewResourceId, parent, false)
         return MasonryViewBindingHolder(viewDataBinding)
     }
 
@@ -30,8 +34,7 @@ class MasonryAdapter(context: Context, private val recyclerItems: ObservableList
 
         val itemData = recyclerItems[position]
         holder.binding.apply {
-            // TODO send BR from outside this class
-            setVariable(BR.article, itemData)
+            setVariable(variableId, itemData)
             notifyChange()
             executePendingBindings()
         }

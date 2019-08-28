@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common.view
+package com.matsuda.chichibu.view.parts
 
 import android.content.Context
 import androidx.databinding.BaseObservable

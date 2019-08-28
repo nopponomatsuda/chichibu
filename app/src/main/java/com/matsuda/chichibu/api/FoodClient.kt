@@ -1,13 +1,13 @@
 package com.matsuda.chichibu.api
 
-import com.matsuda.chichibu.data.Article
+import com.matsuda.chichibu.data.Food
 import com.matsuda.chichibu.data.Foods
 
 object FoodClient {
     fun fetchFoods(): Foods {
-        val foods = mutableListOf<Article>()
+        val foods = mutableListOf<Food>()
         foods.add(
-            Article(
+            Food(
                 1,
                 "news1",
                 "test1",
@@ -15,7 +15,7 @@ object FoodClient {
             )
         )
         foods.add(
-            Article(
+            Food(
                 2,
                 "news2",
                 "test2",
@@ -23,7 +23,7 @@ object FoodClient {
             )
         )
         foods.add(
-            Article(
+            Food(
                 3,
                 "news3",
                 "test3",
@@ -31,7 +31,7 @@ object FoodClient {
             )
         )
         foods.add(
-            Article(
+            Food(
                 4,
                 "news4",
                 "test4",
@@ -39,7 +39,7 @@ object FoodClient {
             )
         )
         foods.add(
-            Article(
+            Food(
                 5,
                 "news5",
                 "test5",
@@ -47,7 +47,7 @@ object FoodClient {
             )
         )
         foods.add(
-            Article(
+            Food(
                 6,
                 "news6",
                 "test6",

@@ -6,15 +6,25 @@ import com.matsuda.chichibu.api.PickupClient
 import com.matsuda.chichibu.dispatchers.Dispatcher
 
 object ActionsCreator {
-    fun fetchPickups() {
-        val pickups = PickupClient.fetchPickups()
-        Dispatcher.dispatch(PickupAction.RefreshArticles(pickups))
+
+    fun fetchArticles() {
+        val articles  = PickupClient.fetchPickups()
+        Dispatcher.dispatch(PickupAction.RefreshPickups(articles))
     }
 
     fun fetchFoods() {
-        //TODO
-        val foods = FoodClient.fetchFoods()
+        val foods  = FoodClient.fetchFoods()
         Dispatcher.dispatch(FoodAction.RefreshFoods(foods))
+    }
+
+    fun fetchEvents() {
+        val events  = PickupClient.fetchPickups() //TODO
+        Dispatcher.dispatch(EventAction.RefreshEvents(events))
+    }
+
+    fun fetchNews() {
+        val news  = PickupClient.fetchPickups() //TODO
+        Dispatcher.dispatch(NewsAction.RefreshNews(news))
     }
 
     fun showDetail(articleId: Int) {
