@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Food
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.FoodStore
+import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
@@ -40,7 +42,10 @@ class MyPageFoodFragment : Fragment() {
             container, false
         ) ?: return null
 
-        ActionsCreator.fetchFoods()
+        val parent = parentFragment as MyPageViewPagerFragment
+        parent.aWSAppSyncClient?.run {
+            MyPageActionCreator.fetchFoods(this)
+        }
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {

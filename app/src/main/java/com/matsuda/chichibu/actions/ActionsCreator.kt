@@ -8,22 +8,22 @@ import com.matsuda.chichibu.dispatchers.Dispatcher
 object ActionsCreator {
 
     fun fetchArticles() {
-        val articles  = PickupClient.fetchPickups()
+        val articles = PickupClient.fetchPickups()
         Dispatcher.dispatch(PickupAction.RefreshPickups(articles))
     }
 
     fun fetchFoods() {
-        val foods  = FoodClient.fetchFoods()
+        val foods = FoodClient.fetchFoods()
         Dispatcher.dispatch(FoodAction.RefreshFoods(foods))
     }
 
     fun fetchEvents() {
-        val events  = PickupClient.fetchPickups() //TODO
+        val events = PickupClient.fetchPickups() //TODO
         Dispatcher.dispatch(EventAction.RefreshEvents(events))
     }
 
     fun fetchNews() {
-        val news  = PickupClient.fetchPickups() //TODO
+        val news = PickupClient.fetchPickups() //TODO
         Dispatcher.dispatch(NewsAction.RefreshNews(news))
     }
 

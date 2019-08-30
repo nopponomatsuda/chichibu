@@ -13,7 +13,6 @@ class AuthenticatorActivity : Activity() {
 
         AWSMobileClient.getInstance().initialize(this, object : Callback<UserStateDetails> {
             override fun onResult(userStateDetails: UserStateDetails) {
-                Log.d("showSignIn", userStateDetails.userState.name)
                 when (userStateDetails.userState) {
                     UserState.SIGNED_IN -> signInSuccess()
                     UserState.SIGNED_OUT -> showSignIn()
