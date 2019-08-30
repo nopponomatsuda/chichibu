@@ -1,8 +1,4 @@
 <resources>
-    <!-- TODO move following ids to other file -->
-    <string name="facebook_app_id">1231231231232123123</string>
-    <string name="fb_login_protocol_scheme">fb1231231231232123123</string>
-
     <string name="app_name">秩父</string>
     <string name="title_home">探す</string>
     <string name="title_mypage">マイページ</string>

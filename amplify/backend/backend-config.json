@@ -1,0 +1,9 @@
+{
+	"auth": {
+		"chichibua0a7d6bda0a7d6bd": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	}
+}

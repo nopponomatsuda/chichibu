@@ -1,0 +1,22 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "chichibu-dev-20190828145205-authRole",
+            "UnauthRoleArn": "arn:aws:iam::201116138093:role/chichibu-dev-20190828145205-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::201116138093:role/chichibu-dev-20190828145205-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "chichibu-dev-20190828145205-deployment",
+            "UnauthRoleName": "chichibu-dev-20190828145205-unauthRole",
+            "StackName": "chichibu-dev-20190828145205",
+            "StackId": "arn:aws:cloudformation:us-east-1:201116138093:stack/chichibu-dev-20190828145205/f7e4de60-c957-11e9-8335-12b44143da02"
+        },
+        "categories": {
+            "auth": {
+                "chichibua0a7d6bda0a7d6bd": {
+                    "facebookAppId": "1312582788910279",
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"1312582788910279\",\"client_secret\":\"e60450ae6c9b4fde7602de825534c111\"}]"
+                }
+            }
+        }
+    }
+}
