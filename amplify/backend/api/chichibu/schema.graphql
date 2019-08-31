@@ -1,0 +1,8 @@
+type Article @model {
+  id: ID!
+  title:String
+  text: String
+  mainImageUrl:String
+  subTitle: String
+  category:String
+}

@@ -19,8 +19,9 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.navigation_dashboard ->
                     ViewNavigator.moveToMyPage(supportFragmentManager)
+                R.id.navigation_create_article ->
+                    ViewNavigator.moveToCreateArticle(supportFragmentManager)
                 R.id.navigation_login -> {
-//                    ViewNavigator.moveToLogin(supportFragmentManager)
                     startActivity(Intent(this, AuthenticatorActivity::class.java))
                 }
                 else ->

@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.actions.ActionsCreator
 import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
@@ -42,8 +41,8 @@ class MyPagePickupFragment : Fragment() {
             container, false
         ) ?: return null
 
-        val parent = parentFragment as MyPageViewPagerFragment
-        parent.aWSAppSyncClient?.run {
+        val parent = parentFragment as MyPageViewPagerFragment?
+        parent?.aWSAppSyncClient?.run {
             MyPageActionCreator.fetchArticles(this)
         }
 

@@ -1,22 +1,31 @@
 # this is an auto generated file. This will be overwritten
-subscription OnCreateChichibu($id: ID, $title: String, $text: String) {
-  onCreateChichibu(id: $id, title: $title, text: $text) {
+subscription OnCreateArticle {
+  onCreateArticle {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }
-subscription OnUpdateChichibu($id: ID, $title: String, $text: String) {
-  onUpdateChichibu(id: $id, title: $title, text: $text) {
+subscription OnUpdateArticle {
+  onUpdateArticle {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }
-subscription OnDeleteChichibu($id: ID, $title: String, $text: String) {
-  onDeleteChichibu(id: $id, title: $title, text: $text) {
+subscription OnDeleteArticle {
+  onDeleteArticle {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }

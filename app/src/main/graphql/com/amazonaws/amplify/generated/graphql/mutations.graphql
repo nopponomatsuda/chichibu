@@ -1,22 +1,31 @@
 # this is an auto generated file. This will be overwritten
-mutation CreateChichibu($input: CreateChichibuInput!) {
-  createChichibu(input: $input) {
+mutation CreateArticle($input: CreateArticleInput!) {
+  createArticle(input: $input) {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }
-mutation UpdateChichibu($input: UpdateChichibuInput!) {
-  updateChichibu(input: $input) {
+mutation UpdateArticle($input: UpdateArticleInput!) {
+  updateArticle(input: $input) {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }
-mutation DeleteChichibu($input: DeleteChichibuInput!) {
-  deleteChichibu(input: $input) {
+mutation DeleteArticle($input: DeleteArticleInput!) {
+  deleteArticle(input: $input) {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }

@@ -1,21 +1,27 @@
 # this is an auto generated file. This will be overwritten
-query GetChichibu($id: ID!) {
-  getChichibu(id: $id) {
+query GetArticle($id: ID!) {
+  getArticle(id: $id) {
     id
     title
     text
+    mainImageUrl
+    subTitle
+    category
   }
 }
-query ListChichibus(
-  $filter: TableChichibuFilterInput
+query ListArticles(
+  $filter: ModelArticleFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listChichibus(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listArticles(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       title
       text
+      mainImageUrl
+      subTitle
+      category
     }
     nextToken
   }

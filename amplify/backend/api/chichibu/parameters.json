@@ -1,0 +1,11 @@
+{
+    "AppSyncApiName": "chichibu",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authchichibua0a7d6bda0a7d6bd",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

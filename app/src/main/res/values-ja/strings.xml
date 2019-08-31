@@ -2,6 +2,7 @@
     <string name="app_name">秩父</string>
     <string name="title_home">探す</string>
     <string name="title_mypage">マイページ</string>
+    <string name="title_create_article">記事作成</string>
     <string name="title_login">ログイン</string>
     <string name="title_logout">ログアウト</string>
     <string name="title_search">検索</string>
