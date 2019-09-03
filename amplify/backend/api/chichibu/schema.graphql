@@ -6,3 +6,9 @@ type Article @model {
   subTitle: String
   category:String
 }
+
+type Favorite @model {
+  id: ID!
+  userId:String
+  articleId: String
+}

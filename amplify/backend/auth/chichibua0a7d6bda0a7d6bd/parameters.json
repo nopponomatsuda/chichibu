@@ -1,6 +1,6 @@
 {
     "identityPoolName": "chichibua0a7d6bd_identitypool_a0a7d6bd",
-    "allowUnauthenticatedIdentities": false,
+    "allowUnauthenticatedIdentities": true,
     "resourceNameTruncated": "chichia0a7d6bd",
     "userPoolName": "chichibua0a7d6bd_userpool_a0a7d6bd",
     "autoVerifiedAttributes": [

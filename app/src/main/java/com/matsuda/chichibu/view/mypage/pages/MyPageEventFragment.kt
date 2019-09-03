@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
@@ -17,7 +18,6 @@ import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.EventStore
-import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
@@ -41,8 +41,7 @@ class MyPageEventFragment : Fragment() {
             container, false
         ) ?: return null
 
-        val parent = parentFragment as MyPageViewPagerFragment?
-        parent?.aWSAppSyncClient?.run {
+        MainActivity.aWSAppSyncClient?.run {
             MyPageActionCreator.fetchEvents(this)
         }
 

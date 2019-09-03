@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
@@ -41,8 +42,7 @@ class MyPageNewsFragment : Fragment() {
             container, false
         ) ?: return null
 
-        val parent = parentFragment as MyPageViewPagerFragment?
-        parent?.aWSAppSyncClient?.run {
+        MainActivity.aWSAppSyncClient?.run {
             MyPageActionCreator.fetchNews(this)
         }
 

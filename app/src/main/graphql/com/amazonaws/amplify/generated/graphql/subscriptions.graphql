@@ -29,3 +29,24 @@ subscription OnDeleteArticle {
     category
   }
 }
+subscription OnCreateFavorite {
+  onCreateFavorite {
+    id
+    userId
+    articleId
+  }
+}
+subscription OnUpdateFavorite {
+  onUpdateFavorite {
+    id
+    userId
+    articleId
+  }
+}
+subscription OnDeleteFavorite {
+  onDeleteFavorite {
+    id
+    userId
+    articleId
+  }
+}

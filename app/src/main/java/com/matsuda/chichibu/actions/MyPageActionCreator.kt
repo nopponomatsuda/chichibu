@@ -1,19 +1,27 @@
 package com.matsuda.chichibu.actions
 
 import android.util.Log
-import com.amazonaws.amplify.generated.graphql.GetArticleQuery
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers
-import com.apollographql.apollo.GraphQLCall
-import com.apollographql.apollo.exception.ApolloException
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
+import com.matsuda.chichibu.api.ArticleClient
 import com.matsuda.chichibu.api.FoodClient
+import com.matsuda.chichibu.api.MyFavoriteClient
 import com.matsuda.chichibu.api.PickupClient
+import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.dispatchers.Dispatcher
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.io.File
 
 object MyPageActionCreator {
+    private const val TAG = "MyPageActionCreator"
     fun fetchArticles(appSyncClient: AWSAppSyncClient) {
-        val articles = PickupClient.fetchPickups()
-        Dispatcher.dispatch(PickupAction.RefreshPickups(articles))
+        Log.d(TAG, "fetchArticles")
+        GlobalScope.launch {
+            val articles = ArticleClient.listArticles(appSyncClient)
+            Dispatcher.dispatch(PickupAction.RefreshPickups(articles))
+        }
     }
 
     fun fetchFoods(appSyncClient: AWSAppSyncClient) {
@@ -31,19 +39,11 @@ object MyPageActionCreator {
         Dispatcher.dispatch(NewsAction.RefreshNews(news))
     }
 
-    private fun query(appSyncClient: AWSAppSyncClient) {
-        appSyncClient.query(GetArticleQuery.builder().build())
-            .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
-            .enqueue(callback)
+    fun addFavorite(
+        appSyncClient: AWSAppSyncClient,
+        articleId: String
+    ) {
+        MyFavoriteClient.addFavorite(appSyncClient, articleId)
     }
 
-    private val callback = object : GraphQLCall.Callback<GetArticleQuery.Data>() {
-        override fun onResponse(response: com.apollographql.apollo.api.Response<GetArticleQuery.Data>) {
-            Log.i("Results", response.data()?.article.toString())
-        }
-
-        override fun onFailure(e: ApolloException) {
-            Log.e("ERROR", e.toString())
-        }
-    }
 }

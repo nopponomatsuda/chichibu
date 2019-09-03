@@ -5,7 +5,7 @@ import com.matsuda.chichibu.common.ArticleCategory
 import java.util.*
 
 data class Food(
-    val id: Int,
+    val id: String,
     val name: String = "",
     val text: String = "",
     val mainImageUrl: String = "",

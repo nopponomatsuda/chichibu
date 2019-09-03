@@ -5,13 +5,13 @@ import com.matsuda.chichibu.common.ArticleCategory
 import java.util.*
 
 data class Article(
-    val id : Int,
-    val title: String = "",
-    val text: String = "",
-    val mainImageUrl : String = "",
-    val subTitle : String = "",
-    val date : Date = Date(),
-    val likeCount : Int = 0,
-    val subImageUrls : List<String> = mutableListOf(),
-    val category : ArticleCategory = ArticleCategory.PICKUP
+    var id: String = "",
+    var title: String? = null,
+    var text: String? = null,
+    var mainImageUrl: String? = null,
+    var subTitle: String? = null,
+    var date: Date = Date(),
+    var likeCount: Int = 0,
+    var subImageUrls: List<String> = mutableListOf(),
+    var category: ArticleCategory = ArticleCategory.PICKUP
 ) : BaseObservable()

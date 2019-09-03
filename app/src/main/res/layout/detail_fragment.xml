@@ -4,8 +4,8 @@
 
     <data>
         <variable
-                name="detail"
-                type="com.matsuda.chichibu.data.Article" />
+                name="viewModel"
+                type="com.matsuda.chichibu.stores.DetailStore" />
     </data>
 
     <ScrollView
@@ -25,7 +25,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{detail.mainImageUrl}"
+                    app:imageUrl="@{viewModel.article.mainImageUrl}"
                     app:layout_constraintBottom_toTopOf="@id/card_category"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
                     android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
 
                     android:alpha="0.7"
-                    app:imageResource="@{detail.category.iconResourceId}"
+                    app:imageResource="@{viewModel.article.category.iconResourceId}"
 
                     app:layout_constraintBottom_toTopOf="@id/card_title"
                     app:layout_constraintEnd_toStartOf="@id/card_category"
@@ -53,7 +53,7 @@
                     android:alpha="0.7"
 
                     android:gravity="start"
-                    android:text="@{detail.category.name()}"
+                    android:text="@{viewModel.article.category.name()}"
                     android:textSize="@dimen/home_pickup_list_item_category_text_size"
 
                     app:layout_constraintBottom_toTopOf="@id/card_title"
@@ -68,7 +68,7 @@
                     android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
                     android:gravity="start"
 
-                    android:text="@{detail.title}"
+                    android:text="@{viewModel.article.title}"
                     android:textSize="@dimen/home_pickup_list_item_title_text_size"
 
                     app:layout_constraintBottom_toTopOf="@id/card_text"
@@ -84,7 +84,7 @@
                     android:alpha="0.7"
 
                     android:gravity="start"
-                    android:text="@{detail.text}"
+                    android:text="@{viewModel.article.text}"
                     android:textSize="@dimen/home_pickup_list_item_body_text_size"
 
                     app:layout_constraintBottom_toTopOf="@+id/sub_image1"
@@ -97,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{detail.subImageUrls[0]}"
+                    app:imageUrl="@{viewModel.article.subImageUrls[0]}"
                     app:layout_constraintBottom_toTopOf="@+id/sub_image11"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +108,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{detail.subImageUrls[0]}"
+                    app:imageUrl="@{viewModel.article.subImageUrls[0]}"
                     app:layout_constraintBottom_toTopOf="@+id/sub_image2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:adjustViewBounds="true"
-                    app:imageUrl="@{detail.subImageUrls[1]}"
+                    app:imageUrl="@{viewModel.article.subImageUrls[1]}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

@@ -1,7 +1,6 @@
 package com.matsuda.chichibu.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,21 +11,22 @@ import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.databinding.DetailFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.DetailStore
-import androidx.annotation.Nullable
-import androidx.lifecycle.Observer
-import com.matsuda.chichibu.BR
+import androidx.lifecycle.ViewModelProviders
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.data.Article
 
 class DetailFragment : Fragment() {
-    private val detailStore = DetailStore()
+    private val detailStore: DetailStore by lazy {
+        ViewModelProviders.of(this).get(DetailStore::class.java)
+    }
+
     private var binding: DetailFragmentBinding? = null
 
     companion object {
-        fun newInstance(articleId: Int): DetailFragment {
+        fun newInstance(articleId: String): DetailFragment {
             return DetailFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(Constant.BUNDLE_KEY_DETAIL_ID, articleId)
+                    putString(Constant.BUNDLE_KEY_ARTICLE_ID, articleId)
                 }
             }
         }
@@ -35,7 +35,6 @@ class DetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Dispatcher.register(detailStore)
-        observeViewModel()
     }
 
     override fun onCreateView(
@@ -50,11 +49,13 @@ class DetailFragment : Fragment() {
 
         binding?.run {
             lifecycleOwner = this@DetailFragment
+            viewModel = detailStore
         }
 
-        //TODO if budle value is null, show error or back to previous page
-        val detailId = arguments?.getInt(Constant.BUNDLE_KEY_DETAIL_ID) ?: return null
-        ActionsCreator.showDetail(detailId)
+        val articleId = arguments?.getString(Constant.BUNDLE_KEY_ARTICLE_ID) ?: return null
+        MainActivity.aWSAppSyncClient?.run {
+            ActionsCreator.showDetail(this, articleId)
+        }
 
         binding?.root?.setOnTouchListener{ _, _ ->
             //prevent bottom layer view from receiving above layer view's event
@@ -67,15 +68,5 @@ class DetailFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         Dispatcher.unregister(detailStore)
-    }
-
-    private fun observeViewModel() {
-        detailStore.article.observe(this, object : Observer<Article> {
-            override fun onChanged(@Nullable article: Article?) {
-                Log.d(javaClass.simpleName, "onChanged")
-                if (article == null) return
-                binding?.setVariable(BR.detail, article)
-            }
-        })
     }
 }

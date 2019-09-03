@@ -2,7 +2,6 @@ package com.matsuda.chichibu.view.navigator
 
 import androidx.fragment.app.FragmentManager
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.view.CreateArticleFragment
 import com.matsuda.chichibu.view.DetailFragment
 import com.matsuda.chichibu.view.LoginFragment
 import com.matsuda.chichibu.view.article.ViewPagerFragment
@@ -28,22 +27,11 @@ object ViewNavigator {
             .commit()
     }
 
-    fun moveToDetail(fragmentManager: FragmentManager, articleId: Int) {
+    fun moveToDetail(fragmentManager: FragmentManager, articleId: String) {
         val fragmentTransaction = fragmentManager.beginTransaction()
         fragmentTransaction.addToBackStack(null).add(
             R.id.fragment_container,
             DetailFragment.newInstance(articleId)
-        ).setCustomAnimations(
-            android.R.anim.slide_in_left,
-            android.R.anim.slide_out_right
-        ).commit()
-    }
-
-    fun moveToCreateArticle(fragmentManager: FragmentManager) {
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.addToBackStack(null).add(
-            R.id.fragment_container,
-            CreateArticleFragment.newInstance()
         ).setCustomAnimations(
             android.R.anim.slide_in_left,
             android.R.anim.slide_out_right

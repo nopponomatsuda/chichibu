@@ -29,3 +29,24 @@ mutation DeleteArticle($input: DeleteArticleInput!) {
     category
   }
 }
+mutation CreateFavorite($input: CreateFavoriteInput!) {
+  createFavorite(input: $input) {
+    id
+    userId
+    articleId
+  }
+}
+mutation UpdateFavorite($input: UpdateFavoriteInput!) {
+  updateFavorite(input: $input) {
+    id
+    userId
+    articleId
+  }
+}
+mutation DeleteFavorite($input: DeleteFavoriteInput!) {
+  deleteFavorite(input: $input) {
+    id
+    userId
+    articleId
+  }
+}

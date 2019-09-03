@@ -10,8 +10,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
@@ -40,7 +42,9 @@ class PickupFragment : Fragment() {
             container, false
         ) ?: return null
 
-        ActionsCreator.fetchArticles()
+        MainActivity.aWSAppSyncClient?.run {
+            ActionsCreator.fetchArticles(this)
+        }
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
@@ -57,6 +61,11 @@ class PickupFragment : Fragment() {
                         data as Article
                         val fragmentManager = fragmentManager ?: return
                         ViewNavigator.moveToDetail(fragmentManager, data.id)
+
+                        //TODO
+                        MainActivity.aWSAppSyncClient?.run {
+                            MyPageActionCreator.addFavorite(this, data.id)
+                        }
                     }
                 }
             }

@@ -15,8 +15,6 @@ import kotlinx.android.synthetic.main.view_pager_fragment.*
 import java.lang.Exception
 
 class MyPageViewPagerFragment : Fragment() {
-    var aWSAppSyncClient: AWSAppSyncClient? = null
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,19 +26,6 @@ class MyPageViewPagerFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val context = context ?: return
-
-        aWSAppSyncClient = AWSAppSyncClient.builder()
-            .context(context)
-            .awsConfiguration(AWSConfiguration(context))
-            .cognitoUserPoolsAuthProvider(CognitoUserPoolsAuthProvider {
-                try {
-                    return@CognitoUserPoolsAuthProvider AWSMobileClient.getInstance()
-                        .tokens.idToken.tokenString
-                } catch (e: Exception) {
-                    return@CognitoUserPoolsAuthProvider e.localizedMessage
-                }
-            }).build()
-
         val fragmentManager = fragmentManager ?: return
         viewPager.adapter = MyPageTabAdapter(context, fragmentManager)
         tabLayout.setupWithViewPager(viewPager)

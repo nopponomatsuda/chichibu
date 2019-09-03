@@ -52,6 +52,8 @@ dependencies {
 
     //Base SDK
     implementation 'com.amazonaws:aws-android-sdk-core:2.15.2'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.15.2'
+
     //AppSync SDK
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.9.0'
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
@@ -64,9 +66,6 @@ dependencies {
 
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.15.2'
     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.15.0'
-    implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.2'
-
-    // Sign in UI
     implementation 'com.amazonaws:aws-android-sdk-auth-ui:2.15.2'
 
     testImplementation 'junit:junit:4.12'
