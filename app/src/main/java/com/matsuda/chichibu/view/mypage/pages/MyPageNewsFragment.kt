@@ -17,14 +17,13 @@ import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
-import com.matsuda.chichibu.stores.NewsStore
-import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
+import com.matsuda.chichibu.stores.mypage.MypageNewsStore
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
 class MyPageNewsFragment : Fragment() {
     private var binding: ArticleFragmentBinding? = null
-    private val listStore = NewsStore()
+    private val listStore = MypageNewsStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

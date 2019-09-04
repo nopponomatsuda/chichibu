@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
@@ -34,13 +35,14 @@ class EventFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("BaseFragment", "onCreateView")
         binding = DataBindingUtil.inflate(
             inflater, R.layout.article_fragment,
             container, false
         ) ?: return null
 
-        ActionsCreator.fetchEvents()
+        MainActivity.aWSAppSyncClient?.run {
+            ActionsCreator.fetchEvents(this)
+        }
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {

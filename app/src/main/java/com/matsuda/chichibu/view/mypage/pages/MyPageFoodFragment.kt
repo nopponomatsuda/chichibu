@@ -17,13 +17,13 @@ import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Food
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
-import com.matsuda.chichibu.stores.FoodStore
+import com.matsuda.chichibu.stores.mypage.MypageFoodStore
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
 class MyPageFoodFragment : Fragment() {
     private var binding: ArticleFragmentBinding? = null
-    private val listStore = FoodStore()
+    private val listStore = MypageFoodStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +53,7 @@ class MyPageFoodFragment : Fragment() {
                 context,
                 listStore.list,
                 R.layout.mypage_list_item_view,
-                BR.food
+                BR.article
             ).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {

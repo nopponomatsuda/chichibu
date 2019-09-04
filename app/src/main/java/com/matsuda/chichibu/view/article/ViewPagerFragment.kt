@@ -21,8 +21,10 @@ class ViewPagerFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         val context = context ?: return
         if (savedInstanceState == null) {
-            val fragmentManager = fragmentManager ?: return
-            viewPager.adapter = TabAdapter(context, fragmentManager)
+            viewPager.run {
+                adapter = TabAdapter(context, childFragmentManager)
+                offscreenPageLimit = 2
+            }
             tabLayout.setupWithViewPager(viewPager)
         }
     }

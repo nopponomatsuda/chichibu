@@ -13,7 +13,6 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
-import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
@@ -36,14 +35,13 @@ class PickupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("BaseFragment", "onCreateView")
         binding = DataBindingUtil.inflate(
             inflater, R.layout.article_fragment,
             container, false
         ) ?: return null
 
         MainActivity.aWSAppSyncClient?.run {
-            ActionsCreator.fetchArticles(this)
+            ActionsCreator.fetchPickups(this)
         }
 
         binding?.articleList?.run {
@@ -61,11 +59,6 @@ class PickupFragment : Fragment() {
                         data as Article
                         val fragmentManager = fragmentManager ?: return
                         ViewNavigator.moveToDetail(fragmentManager, data.id)
-
-                        //TODO
-                        MainActivity.aWSAppSyncClient?.run {
-                            MyPageActionCreator.addFavorite(this, data.id)
-                        }
                     }
                 }
             }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.config.AWSConfiguration
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
+import com.amazonaws.mobileconnectors.appsync.ClearCacheOptions
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
 import com.matsuda.chichibu.view.CreateArticleActivity
 import com.matsuda.chichibu.view.navigator.ViewNavigator
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        ViewNavigator.moveToHome(supportFragmentManager)
         val navView = nav_view as BottomNavigationView
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -41,24 +42,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        if (aWSAppSyncClient == null) {
-            aWSAppSyncClient = AWSAppSyncClient.builder()
-                .context(this)
-                .awsConfiguration(AWSConfiguration(this))
-                .cognitoUserPoolsAuthProvider(CognitoUserPoolsAuthProvider {
-                    try {
-                        return@CognitoUserPoolsAuthProvider AWSMobileClient.getInstance()
-                            .tokens.idToken.tokenString
-                    } catch (e: Exception) {
-                        return@CognitoUserPoolsAuthProvider e.localizedMessage
-                    }
-                }).build()
-        }
-        ViewNavigator.moveToHome(supportFragmentManager)
+        aWSAppSyncClient = AWSAppSyncClient.builder()
+            .context(this)
+            .awsConfiguration(AWSConfiguration(this))
+            .cognitoUserPoolsAuthProvider(CognitoUserPoolsAuthProvider {
+                try {
+                    return@CognitoUserPoolsAuthProvider AWSMobileClient.getInstance()
+                        .tokens.idToken.tokenString
+                } catch (e: Exception) {
+                    return@CognitoUserPoolsAuthProvider e.localizedMessage
+                }
+            }).build()
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        aWSAppSyncClient?.clearCaches()
+        aWSAppSyncClient?.clearCaches(ClearCacheOptions.Builder().clearQueries().build())
         aWSAppSyncClient = null
     }
 }

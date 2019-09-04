@@ -2,7 +2,10 @@ package com.matsuda.chichibu.common.util
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.request.RequestOptions
+import com.matsuda.chichibu.R
 import com.matsuda.chichibu.common.GlideApp
+import kotlin.math.roundToInt
 
 object ImageViewBindingAdapter {
     @BindingAdapter("imageResource")
@@ -11,13 +14,17 @@ object ImageViewBindingAdapter {
         imageView.setImageResource(resource)
     }
 
-    @BindingAdapter("imageUrl")
+    @BindingAdapter("imageUrl", "size", requireAll = false)
     @JvmStatic
-    fun setImageViewUrl(imageView: ImageView, imageUrl: String?) {
-        imageUrl?:return
+    fun setImageViewUrl(imageView: ImageView, imageUrl: String?, size: Int?) {
+        imageUrl ?: return
+
+        //TODO
+        val length = DimenUtils.convertDp2Px(size?.toFloat() ?: 150F, imageView.context)
         GlideApp.with(imageView.context)
             .load(imageUrl)
-//            .placeholder(R.drawable.placeholder)
+            .apply(RequestOptions().override(length.roundToInt(), length.roundToInt()))
+//            .placeholder(R.drawable.com_facebook_profile_picture_blank_square) //TODO
             .fitCenter()
             .into(imageView)
     }

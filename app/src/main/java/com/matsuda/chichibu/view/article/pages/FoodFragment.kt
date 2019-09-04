@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
+import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
 import com.matsuda.chichibu.view.parts.MasonryAdapter
@@ -34,13 +35,14 @@ class FoodFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("BaseFragment", "onCreateView")
         binding = DataBindingUtil.inflate(
             inflater, R.layout.article_fragment,
             container, false
         ) ?: return null
 
-        ActionsCreator.fetchFoods()
+        MainActivity.aWSAppSyncClient?.run {
+            ActionsCreator.fetchFoods(this)
+        }
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
@@ -49,8 +51,8 @@ class FoodFragment : Fragment() {
             adapter = MasonryAdapter(
                 context,
                 listStore.list,
-                R.layout.food_item_view,
-                BR.food
+                R.layout.list_item_view,
+                BR.article
             ).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {

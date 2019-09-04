@@ -11,10 +11,12 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.amazonaws.regions.Region
 import com.amazonaws.services.s3.AmazonS3Client
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.actions.MyPageActionCreator
 import kotlinx.android.synthetic.main.activity_create_article.*
 import java.lang.Exception
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.matsuda.chichibu.common.GlideApp
@@ -26,6 +28,7 @@ import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ActivityCreateArticleBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.DetailStore
+import java.util.*
 
 class CreateArticleActivity : AppCompatActivity() {
     companion object {
@@ -42,7 +45,6 @@ class CreateArticleActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_create_article)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_create_article)
 
         Dispatcher.register(detailStore)
@@ -78,9 +80,36 @@ class CreateArticleActivity : AppCompatActivity() {
             val article = detailStore.article.value ?: return@setOnClickListener
             val appSyncClient = aWSAppSyncClient ?: return@setOnClickListener
 
+            // TODO If image is not set, don't try to upload file
             val bitmap = upload_image.drawable.toBitmap()
             val uploadFile = FileUtils.createUploadFile(this, bitmap)
-            ActionsCreator.saveArticle(appSyncClient, transferUtility, uploadFile, article)
+
+            val uniqueID = UUID.randomUUID().toString()
+            val key = "public/$uniqueID.jpg"
+
+
+            ActionsCreator.uploadFile(transferUtility, uploadFile, key) {
+                if (!this) return@uploadFile
+
+                val tuConfig =
+                    AWSMobileClient.getInstance().configuration.optJsonObject("S3TransferUtility")
+                val defaultBucket = tuConfig.getString("Bucket")
+                article.mainImageUrl = "https://$defaultBucket.s3.amazonaws.com/$key"
+
+                ActionsCreator.saveArticle(appSyncClient, article) {
+                    Handler(Looper.getMainLooper()).post {
+                        if (this) Toast.makeText(
+                            this@CreateArticleActivity,
+                            "Saving article is completed", Toast.LENGTH_LONG
+                        ).show()
+                        else Toast.makeText(
+                            this@CreateArticleActivity,
+                            "Saving article is failed", Toast.LENGTH_LONG
+                        ).show()
+                    }
+                }
+            }
+
         }
     }
 

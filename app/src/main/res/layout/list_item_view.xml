@@ -1,91 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
                 name="article"
-                type="com.matsuda.chichibu.data.Article"/>
+                type="com.matsuda.chichibu.data.Article" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/home_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:clipToPadding="false"
+            android:orientation="vertical"
             android:padding="@dimen/home_pickup_list_margin">
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_image"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 app:imageUrl="@{article.mainImageUrl}"
-                app:layout_constraintTop_toTopOf="parent"
+                app:size="@{200}"
                 app:layout_constraintBottom_toTopOf="@id/card_category"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:contentDescription="image"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/card_category_icon"
                 android:layout_width="@dimen/home_pickup_list_item_category_icon_size"
                 android:layout_height="@dimen/home_pickup_list_item_category_icon_size"
+                android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
+
+                android:alpha="0.7"
                 app:imageResource="@{article.category.iconResourceId}"
 
-                android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
-                android:alpha="0.7"
-
-                app:layout_constraintTop_toBottomOf="@id/card_image"
                 app:layout_constraintBottom_toTopOf="@id/card_title"
+                app:layout_constraintEnd_toStartOf="@id/card_category"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/card_category"/>
+                app:layout_constraintTop_toBottomOf="@id/card_image" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{article.category.name()}"
-
                 android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
-                android:textSize="@dimen/home_pickup_list_item_category_text_size"
                 android:alpha="0.7"
 
-                app:layout_constraintTop_toBottomOf="@id/card_image"
+                android:gravity="start"
+                android:text="@{article.category.name()}"
+                android:textSize="@dimen/home_pickup_list_item_category_text_size"
+
                 app:layout_constraintBottom_toTopOf="@id/card_title"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/card_category_icon"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/card_image" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{article.title}"
-
                 android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
+                android:gravity="start"
+
+                android:text="@{article.title}"
                 android:textSize="@dimen/home_pickup_list_item_title_text_size"
 
-                app:layout_constraintTop_toBottomOf="@id/card_category"
                 app:layout_constraintBottom_toTopOf="@id/card_text"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/card_category" />
 
         <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/card_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="start"
-                android:text="@{article.text}"
-
                 android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
-                android:textSize="@dimen/home_pickup_list_item_body_text_size"
                 android:alpha="0.7"
 
-                app:layout_constraintTop_toBottomOf="@id/card_title"
+                android:gravity="start"
+                android:text="@{article.text}"
+                android:textSize="@dimen/home_pickup_list_item_body_text_size"
+
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/card_title" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

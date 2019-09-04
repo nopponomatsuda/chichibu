@@ -1,49 +1,73 @@
 package com.matsuda.chichibu.actions
 
-import android.util.Log
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
-import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
-import com.matsuda.chichibu.api.ArticleClient
-import com.matsuda.chichibu.api.FoodClient
-import com.matsuda.chichibu.api.MyFavoriteClient
-import com.matsuda.chichibu.api.PickupClient
+import com.matsuda.chichibu.api.*
+import com.matsuda.chichibu.common.ArticleCategory
 import com.matsuda.chichibu.data.Article
+import com.matsuda.chichibu.data.Articles
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.io.File
 
 object MyPageActionCreator {
-    private const val TAG = "MyPageActionCreator"
-    fun fetchArticles(appSyncClient: AWSAppSyncClient) {
-        Log.d(TAG, "fetchArticles")
-        GlobalScope.launch {
-            val articles = ArticleClient.listArticles(appSyncClient)
-            Dispatcher.dispatch(PickupAction.RefreshPickups(articles))
-        }
+    fun fetchPickups(appSyncClient: AWSAppSyncClient) {
+        fetch(appSyncClient, ArticleCategory.PICKUP)
     }
 
     fun fetchFoods(appSyncClient: AWSAppSyncClient) {
-        val foods = FoodClient.fetchFoods()
-        Dispatcher.dispatch(FoodAction.RefreshFoods(foods))
+        fetch(appSyncClient, ArticleCategory.FOOD)
     }
 
     fun fetchEvents(appSyncClient: AWSAppSyncClient) {
-        val events = PickupClient.fetchPickups() //TODO
-        Dispatcher.dispatch(EventAction.RefreshEvents(events))
+        fetch(appSyncClient, ArticleCategory.EVENT)
     }
 
     fun fetchNews(appSyncClient: AWSAppSyncClient) {
-        val news = PickupClient.fetchPickups() //TODO
-        Dispatcher.dispatch(NewsAction.RefreshNews(news))
+        fetch(appSyncClient, ArticleCategory.NEWS)
     }
 
     fun addFavorite(
         appSyncClient: AWSAppSyncClient,
-        articleId: String
+        articleId: String,
+        block: Boolean.() -> Unit
     ) {
-        MyFavoriteClient.addFavorite(appSyncClient, articleId)
+        MyFavoriteClient.addFavorite(appSyncClient, articleId) {
+            block(this)
+            if (this) {
+                GlobalScope.launch {
+                    val article =
+                        DetailClient.getArticle(appSyncClient, articleId) ?: return@launch
+                    Dispatcher.dispatch(MyPageAction.AddPickupFavorite(article))
+                }
+            }
+        }
     }
 
+    private fun fetch(appSyncClient: AWSAppSyncClient, category: ArticleCategory) {
+        GlobalScope.launch {
+            val articleList = mutableListOf<Article>()
+            MyFavoriteClient.listFavorites(appSyncClient)
+                .forEach {
+                    val article = DetailClient.getArticle(appSyncClient, it)
+                    article?.run {
+                        if (this.category == category) articleList.add(this)
+                    }
+                }
+
+            when (category) {
+                ArticleCategory.PICKUP -> {
+                    Dispatcher.dispatch(MyPageAction.RefreshPickups(Articles(articleList)))
+                }
+                ArticleCategory.FOOD -> {
+                    Dispatcher.dispatch(MyPageAction.RefreshFoods(Articles(articleList)))
+                }
+                ArticleCategory.NEWS -> {
+                    Dispatcher.dispatch(MyPageAction.RefreshEvents(Articles(articleList)))
+                }
+                ArticleCategory.EVENT -> {
+                    Dispatcher.dispatch(MyPageAction.RefreshNews(Articles(articleList)))
+                }
+            }
+        }
+    }
 }

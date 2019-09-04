@@ -17,13 +17,13 @@ import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
-import com.matsuda.chichibu.stores.PickupStore
+import com.matsuda.chichibu.stores.mypage.MypagePickupStore
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
 class MyPagePickupFragment : Fragment() {
     private var binding: ArticleFragmentBinding? = null
-    private val listStore = PickupStore()
+    private val listStore = MypagePickupStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +42,7 @@ class MyPagePickupFragment : Fragment() {
         ) ?: return null
 
         MainActivity.aWSAppSyncClient?.run {
-            MyPageActionCreator.fetchArticles(this)
+            MyPageActionCreator.fetchPickups(this)
         }
 
         binding?.articleList?.run {

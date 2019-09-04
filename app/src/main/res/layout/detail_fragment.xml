@@ -40,6 +40,7 @@
                     android:alpha="0.7"
                     app:imageResource="@{viewModel.article.category.iconResourceId}"
 
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintBottom_toTopOf="@id/card_title"
                     app:layout_constraintEnd_toStartOf="@id/card_category"
                     app:layout_constraintStart_toStartOf="parent"
@@ -47,19 +48,33 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/card_category"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
                     android:alpha="0.7"
 
-                    android:gravity="start"
                     android:text="@{viewModel.article.category.name()}"
+                    android:gravity="start"
                     android:textSize="@dimen/home_pickup_list_item_category_text_size"
 
+                    app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintBottom_toTopOf="@id/card_title"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/favorite_icon"
                     app:layout_constraintStart_toEndOf="@id/card_category_icon"
                     app:layout_constraintTop_toBottomOf="@id/card_image" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/favorite_icon"
+                    android:layout_width="@dimen/home_pickup_list_item_category_icon_size"
+                    android:layout_height="@dimen/home_pickup_list_item_category_icon_size"
+                    android:src="@drawable/com_facebook_button_like_icon_selected"
+                    android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
+
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintTop_toBottomOf="@id/card_image"
+                    app:layout_constraintBottom_toTopOf="@id/card_title"
+                    app:layout_constraintStart_toEndOf="@+id/card_category"
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/card_title"
