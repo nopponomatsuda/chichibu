@@ -57,7 +57,7 @@ class FoodFragment : Fragment() {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {
                         data as Food
-                        val fragmentManager = fragmentManager ?: return
+                        val fragmentManager = parentFragment?.fragmentManager ?: return
                         ViewNavigator.moveToDetail(fragmentManager, data.id)
                     }
                 }
