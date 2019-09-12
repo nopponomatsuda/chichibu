@@ -15,6 +15,7 @@ class EventStore : Store() {
         Log.d("EventStore", "on")
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }

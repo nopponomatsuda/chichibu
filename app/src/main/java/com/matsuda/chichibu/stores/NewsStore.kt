@@ -15,6 +15,7 @@ class NewsStore : Store() {
         Log.d("NewsStore", "on")
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }

@@ -1,5 +1,6 @@
 package com.matsuda.chichibu.view
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import com.amazonaws.mobile.client.AWSMobileClient
@@ -17,6 +18,7 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -72,6 +74,7 @@ class CreateArticleActivity : AppCompatActivity() {
             viewModel = detailStore
             lifecycleOwner = this@CreateArticleActivity
         }
+        detailStore.loading.postValue(false)
 
         setupCategorySpinner()
 
@@ -87,9 +90,13 @@ class CreateArticleActivity : AppCompatActivity() {
             val transferUtility = transferUtility ?: return@setOnClickListener
             val article = detailStore.article.value ?: return@setOnClickListener
             val appSyncClient = aWSAppSyncClient ?: return@setOnClickListener
+            val drawable = upload_image.drawable ?: return@setOnClickListener
 
-            // TODO If image is not set, don't try to upload file
-            val bitmap = upload_image.drawable.toBitmap()
+            hideKeyBoard()
+            detailStore.loading.postValue(true)
+            binding?.loading?.show()
+
+            val bitmap = drawable.toBitmap()
             val uploadFile = FileUtils.createUploadFile(this, bitmap)
 
             val uniqueID = UUID.randomUUID().toString()
@@ -107,13 +114,16 @@ class CreateArticleActivity : AppCompatActivity() {
 
                 ActionsCreator.saveArticle(appSyncClient, article) {
                     Handler(Looper.getMainLooper()).post {
+                        detailStore.loading.postValue(false)
+                        binding?.loading?.hide()
+
                         if (this) Toast.makeText(
                             this@CreateArticleActivity,
-                            "Saving article is completed", Toast.LENGTH_LONG
+                            "Saving article is completed", LENGTH_LONG
                         ).show()
                         else Toast.makeText(
                             this@CreateArticleActivity,
-                            "Saving article is failed", Toast.LENGTH_LONG
+                            "Saving article is failed", LENGTH_LONG
                         ).show()
                     }
                 }
@@ -187,6 +197,16 @@ class CreateArticleActivity : AppCompatActivity() {
                 val category = spinner.selectedItem as String
                 Toast.makeText(this@CreateArticleActivity, category, LENGTH_LONG).show()
             }
+        }
+    }
+
+    private fun hideKeyBoard() {
+        currentFocus?.run {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(
+                windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
         }
     }
 }

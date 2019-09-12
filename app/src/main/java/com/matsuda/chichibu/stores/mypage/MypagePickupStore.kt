@@ -1,6 +1,5 @@
 package com.matsuda.chichibu.stores.mypage
 
-import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.ObservableArrayList
 import androidx.databinding.ObservableList
@@ -16,11 +15,13 @@ class MypagePickupStore : Store() {
     fun on(action: MyPageAction.RefreshPickups) {
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun on(action: MyPageAction.AddPickupFavorite) {
         list.add(action.data)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }

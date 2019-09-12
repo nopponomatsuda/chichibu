@@ -58,16 +58,11 @@ object ArticleClient {
             }
 
             override fun onProgressChanged(id: Int, bytesCurrent: Long, bytesTotal: Long) {
-                val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
-                val percentDone = percentDonef.toInt()
-                Log.d(
-                    TAG, "ID: $id  bytesCurrent: $bytesCurrent"
-                            + " bytesTotal: $bytesTotal $percentDone"
-                )
+//                val percentDonef = bytesCurrent.toFloat() / bytesTotal.toFloat() * 100
+//                val percentDone = percentDonef.toInt()
             }
 
             override fun onError(id: Int, ex: Exception) {
-                Log.e(TAG, "failed upload ${ex.message}")
                 file.delete()
                 block(false)
             }
@@ -79,6 +74,10 @@ object ArticleClient {
         article: Article,
         block: Boolean.() -> Unit
     ) {
+        val category = article.category
+        if (cacheListMap[category] == null)
+            cacheListMap[category] = Articles(mutableListOf())
+
         val createCommentMutation =
             CreateArticleMutation.builder()
                 .input(
@@ -94,8 +93,8 @@ object ArticleClient {
         val mutateCall = appSyncClient.mutate(createCommentMutation)
         val mutationCallback = object : GraphQLCall.Callback<CreateArticleMutation.Data>() {
             override fun onResponse(response: com.apollographql.apollo.api.Response<CreateArticleMutation.Data>) {
-                Log.d("CreateCommentMutation", response.data().toString())
-                cacheListMap[article.category]!!.articleList.add(article)
+                val data = response.data() ?: return
+                Log.d("CreateCommentMutation", data.toString())
                 block(true)
                 mutateCall.cancel()
             }
@@ -130,23 +129,7 @@ object ArticleClient {
                 override fun onResponse(response: com.apollographql.apollo.api.Response<ListArticlesQuery.Data>) {
                     Log.d(TAG, "onResponse() data : ${response.data()}")
                     val data = response.data() ?: return
-
-                    //TODO update to best practice
-                    val list = mutableListOf<Article>()
-                    data.listArticles()?.items()?.forEach {
-                        list.add(
-                            (Article(
-                                id = it.id(),
-                                title = it.title(),
-                                subTitle = it.subTitle(),
-                                text = it.text(),
-                                mainImageUrl = it.mainImageUrl(),
-                                category = it.category()?.run { ArticleCategory.valueOf(this) }
-                                    ?: ArticleCategory.PICKUP
-                            ))
-                        )
-                    }
-                    continuation.resume(Articles(list))
+                    continuation.resume(mapDataToArticle(data))
                     queueCall.cancel()
                 }
 
@@ -162,5 +145,38 @@ object ArticleClient {
 
     fun clearCache() {
         cacheListMap.clear()
+    }
+
+    private fun mapDataToArticle(data: CreateArticleMutation.Data): Article? {
+        data.createArticle()?.apply {
+            return Article(
+                id = id(),
+                title = title(),
+                subTitle = subTitle(),
+                text = text(),
+                mainImageUrl = mainImageUrl(),
+                category = category()?.run { ArticleCategory.valueOf(this) }
+                    ?: ArticleCategory.PICKUP
+            )
+        }
+        return null
+    }
+
+    private fun mapDataToArticle(data: ListArticlesQuery.Data): Articles {
+        val list = mutableListOf<Article>()
+        data.listArticles()?.items()?.forEach {
+            list.add(
+                (Article(
+                    id = it.id(),
+                    title = it.title(),
+                    subTitle = it.subTitle(),
+                    text = it.text(),
+                    mainImageUrl = it.mainImageUrl(),
+                    category = it.category()?.run { ArticleCategory.valueOf(this) }
+                        ?: ArticleCategory.PICKUP
+                ))
+            )
+        }
+        return Articles(list)
     }
 }

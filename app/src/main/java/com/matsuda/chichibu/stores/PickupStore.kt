@@ -10,11 +10,13 @@ import org.greenrobot.eventbus.ThreadMode
 
 class PickupStore : Store() {
     val list: ObservableList<BaseObservable> = ObservableArrayList()
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun on(action: ArticleAction.RefreshPickups) {
         Log.d("PickupStore", "on")
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }

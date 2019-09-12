@@ -45,6 +45,12 @@ class EventFragment : Fragment() {
             ActionsCreator.fetchEvents(this)
         }
 
+        binding?.run {
+            viewModel = listStore
+            lifecycleOwner = this@EventFragment
+        }
+        listStore.loading.postValue(true)
+
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
                 spanSizeLookup = CustomSpanSizeLookup.Event

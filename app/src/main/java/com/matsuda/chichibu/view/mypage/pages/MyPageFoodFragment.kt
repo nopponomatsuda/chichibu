@@ -14,16 +14,16 @@ import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
 import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.view.parts.MasonryAdapter
-import com.matsuda.chichibu.data.Food
-import com.matsuda.chichibu.databinding.ArticleFragmentBinding
+import com.matsuda.chichibu.databinding.MypageArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.mypage.MypageFoodStore
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 
 class MyPageFoodFragment : Fragment() {
-    private var binding: ArticleFragmentBinding? = null
+    private var binding: MypageArticleFragmentBinding? = null
     private val listStore = MypageFoodStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,13 +38,19 @@ class MyPageFoodFragment : Fragment() {
     ): View? {
         Log.d("BaseFragment", "onCreateView")
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.article_fragment,
+            inflater, R.layout.mypage_article_fragment,
             container, false
         ) ?: return null
 
         MainActivity.aWSAppSyncClient?.run {
             MyPageActionCreator.fetchFoods(this)
         }
+
+        binding?.run {
+            viewModel = listStore
+            lifecycleOwner = this@MyPageFoodFragment
+        }
+        listStore.loading.postValue(true)
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
@@ -58,7 +64,7 @@ class MyPageFoodFragment : Fragment() {
             ).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {
-                        data as Food
+                        data as Article
                         val fragmentManager = parentFragment?.fragmentManager ?: return
                         ViewNavigator.moveToDetail(fragmentManager, data.id, ArticleCategory.FOOD)
                     }

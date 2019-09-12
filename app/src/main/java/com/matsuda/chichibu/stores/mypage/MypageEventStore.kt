@@ -16,11 +16,13 @@ class MypageEventStore : Store() {
         Log.d("EventStore", "on")
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun on(action: MyPageAction.AddEventsFavorite) {
         list.add(action.data)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }

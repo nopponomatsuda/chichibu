@@ -45,6 +45,12 @@ class PickupFragment : Fragment() {
             ActionsCreator.fetchPickups(this)
         }
 
+        binding?.run {
+            viewModel = listStore
+            lifecycleOwner = this@PickupFragment
+        }
+        listStore.loading.postValue(true)
+
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
                 spanSizeLookup = CustomSpanSizeLookup.Pickup

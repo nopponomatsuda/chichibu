@@ -4,7 +4,6 @@ import androidx.fragment.app.FragmentManager
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.common.ArticleCategory
 import com.matsuda.chichibu.view.DetailFragment
-import com.matsuda.chichibu.view.LoginFragment
 import com.matsuda.chichibu.view.article.ViewPagerFragment
 import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
 
@@ -19,12 +18,6 @@ object ViewNavigator {
     fun moveToMyPage(fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()
             .replace(R.id.fragment_container, MyPageViewPagerFragment())
-            .commit()
-    }
-
-    fun moveToLogin(fragmentManager: FragmentManager) {
-        fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, LoginFragment())
             .commit()
     }
 

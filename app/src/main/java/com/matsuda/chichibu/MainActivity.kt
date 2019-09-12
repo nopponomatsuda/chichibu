@@ -3,8 +3,10 @@ package com.matsuda.chichibu
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.get
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserState
@@ -82,7 +84,6 @@ class MainActivity : AppCompatActivity() {
                     ViewNavigator.moveToMyPage(supportFragmentManager)
                 R.id.navigation_create_article -> {
                     startActivity(Intent(this, CreateArticleActivity::class.java))
-                    finish()
                 }
                 R.id.navigation_login -> {
                     moveToLoginPage()
@@ -96,6 +97,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun moveToLoginPage() {
         startActivity(Intent(this, AuthenticatorActivity::class.java))
-        finish()
     }
 }

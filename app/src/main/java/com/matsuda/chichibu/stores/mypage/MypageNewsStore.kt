@@ -16,11 +16,13 @@ class MypageNewsStore : Store() {
         Log.d("NewsStore", "on")
         list.clear()
         list.addAll(action.data.articleList)
+        loading.postValue(false)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun on(action: MyPageAction.AddNewsFavorite) {
         list.add(action.data)
+        loading.postValue(false)
     }
     // add receiving actions functions
 }
