@@ -87,9 +87,9 @@ object MyFavoriteClient {
                                     category.name
                                 ).build()
                             ).build()
-                    )
+                    ).limit(20)
                     .build()
-            ).responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+            ).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
 
             val listCallback = object : GraphQLCall.Callback<ListFavoritesQuery.Data>() {
                 override fun onResponse(response: com.apollographql.apollo.api.Response<ListFavoritesQuery.Data>) {

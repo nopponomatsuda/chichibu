@@ -77,7 +77,6 @@ object ArticleClient {
     fun saveArticle(
         appSyncClient: AWSAppSyncClient,
         article: Article,
-        category: ArticleCategory,
         block: Boolean.() -> Unit
     ) {
         val createCommentMutation =
@@ -96,7 +95,7 @@ object ArticleClient {
         val mutationCallback = object : GraphQLCall.Callback<CreateArticleMutation.Data>() {
             override fun onResponse(response: com.apollographql.apollo.api.Response<CreateArticleMutation.Data>) {
                 Log.d("CreateCommentMutation", response.data().toString())
-                cacheListMap[category]!!.articleList.add(article)
+                cacheListMap[article.category]!!.articleList.add(article)
                 block(true)
                 mutateCall.cancel()
             }
@@ -125,7 +124,7 @@ object ArticleClient {
                 )
                     .limit(20)
                     .build()
-            ).responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
+            ).responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
 
             val listCallback = object : GraphQLCall.Callback<ListArticlesQuery.Data>() {
                 override fun onResponse(response: com.apollographql.apollo.api.Response<ListArticlesQuery.Data>) {
