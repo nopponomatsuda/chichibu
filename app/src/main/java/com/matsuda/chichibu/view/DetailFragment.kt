@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.MainThread
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.matsuda.chichibu.actions.ActionsCreator
@@ -19,8 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.matsuda.chichibu.common.ArticleCategory
 
 class DetailFragment : Fragment() {
     private val detailStore: DetailStore by lazy {
@@ -30,10 +28,11 @@ class DetailFragment : Fragment() {
     private var binding: DetailFragmentBinding? = null
 
     companion object {
-        fun newInstance(articleId: String): DetailFragment {
+        fun newInstance(articleId: String, articleCategory: ArticleCategory): DetailFragment {
             return DetailFragment().apply {
                 arguments = Bundle().apply {
                     putString(Constant.BUNDLE_KEY_ARTICLE_ID, articleId)
+                    putString(Constant.BUNDLE_KEY_ARTICLE_CATEGORY, articleCategory.name)
                 }
             }
         }
@@ -60,11 +59,21 @@ class DetailFragment : Fragment() {
         }
 
         val articleId = arguments?.getString(Constant.BUNDLE_KEY_ARTICLE_ID) ?: return null
+        val category = arguments?.getString(Constant.BUNDLE_KEY_ARTICLE_CATEGORY) ?: return null
         MainActivity.aWSAppSyncClient?.run {
             ActionsCreator.showDetail(this, articleId)
 
             binding?.favoriteIcon?.setOnClickListener {
-                MyPageActionCreator.addFavorite(this, articleId) {
+
+                Toast.makeText(
+                    context,
+                    "favoriteIcon clicked", Toast.LENGTH_LONG
+                ).show()
+
+                MyPageActionCreator.addFavorite(
+                    this, articleId,
+                    ArticleCategory.valueOf(category)
+                ) {
 
                     Handler(Looper.getMainLooper()).post {
                         val context = context ?: return@post

@@ -16,7 +16,12 @@ import java.lang.Exception
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.matsuda.chichibu.common.GlideApp
@@ -24,6 +29,7 @@ import com.matsuda.chichibu.common.util.FileUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.common.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ActivityCreateArticleBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
@@ -67,6 +73,8 @@ class CreateArticleActivity : AppCompatActivity() {
             lifecycleOwner = this@CreateArticleActivity
         }
 
+        setupCategorySpinner()
+
         select_button.setOnClickListener {
             startActivityForResult(Intent().apply {
                 type = "image/*"
@@ -95,6 +103,7 @@ class CreateArticleActivity : AppCompatActivity() {
                     AWSMobileClient.getInstance().configuration.optJsonObject("S3TransferUtility")
                 val defaultBucket = tuConfig.getString("Bucket")
                 article.mainImageUrl = "https://$defaultBucket.s3.amazonaws.com/$key"
+                article.category = ArticleCategory.valueOf(category.selectedItem as String)
 
                 ActionsCreator.saveArticle(appSyncClient, article) {
                     Handler(Looper.getMainLooper()).post {
@@ -109,7 +118,6 @@ class CreateArticleActivity : AppCompatActivity() {
                     }
                 }
             }
-
         }
     }
 
@@ -154,5 +162,31 @@ class CreateArticleActivity : AppCompatActivity() {
                 )
             ) //TODO
             .build()
+    }
+
+    private fun setupCategorySpinner() {
+        val categoryList: List<String> = ArticleCategory.values().map { it.name }
+        val adapter = ArrayAdapter<String>(
+            this,
+            android.R.layout.simple_spinner_item, categoryList
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        category.adapter = adapter
+        category.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                //NOP
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val spinner = parent as Spinner
+                val category = spinner.selectedItem as String
+                Toast.makeText(this@CreateArticleActivity, category, LENGTH_LONG).show()
+            }
+        }
     }
 }

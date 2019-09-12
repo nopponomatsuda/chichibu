@@ -11,4 +11,5 @@ type Favorite @model {
   id: ID!
   userId:String
   articleId: String
+  category:String
 }

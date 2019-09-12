@@ -34,6 +34,7 @@ mutation CreateFavorite($input: CreateFavoriteInput!) {
     id
     userId
     articleId
+    category
   }
 }
 mutation UpdateFavorite($input: UpdateFavoriteInput!) {
@@ -41,6 +42,7 @@ mutation UpdateFavorite($input: UpdateFavoriteInput!) {
     id
     userId
     articleId
+    category
   }
 }
 mutation DeleteFavorite($input: DeleteFavoriteInput!) {
@@ -48,5 +50,6 @@ mutation DeleteFavorite($input: DeleteFavoriteInput!) {
     id
     userId
     articleId
+    category
   }
 }

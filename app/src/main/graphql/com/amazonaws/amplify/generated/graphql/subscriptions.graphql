@@ -34,6 +34,7 @@ subscription OnCreateFavorite {
     id
     userId
     articleId
+    category
   }
 }
 subscription OnUpdateFavorite {
@@ -41,6 +42,7 @@ subscription OnUpdateFavorite {
     id
     userId
     articleId
+    category
   }
 }
 subscription OnDeleteFavorite {
@@ -48,5 +50,6 @@ subscription OnDeleteFavorite {
     id
     userId
     articleId
+    category
   }
 }

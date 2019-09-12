@@ -34,6 +34,10 @@ object ActionsCreator {
         }
     }
 
+    fun clearArticleCache() {
+        ArticleClient.clearCache()
+    }
+
     fun uploadFile(
         transferUtility: TransferUtility,
         file: File,
@@ -54,7 +58,7 @@ object ActionsCreator {
 
     private fun fetch(appSyncClient: AWSAppSyncClient, category: ArticleCategory) {
         GlobalScope.launch {
-            val articles = ArticleClient.listArticles(appSyncClient)
+            val articles = ArticleClient.listArticles(appSyncClient, category)
             when (category) {
                 ArticleCategory.PICKUP -> {
                     Dispatcher.dispatch(ArticleAction.RefreshPickups(articles))

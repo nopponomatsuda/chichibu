@@ -28,6 +28,7 @@ class AuthenticatorActivity : Activity() {
 
     private fun signInSuccess() {
         startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 
     private fun showSignIn() {

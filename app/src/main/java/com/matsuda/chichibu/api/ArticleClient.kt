@@ -10,24 +10,34 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.exception.ApolloException
+import com.matsuda.chichibu.common.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.data.Articles
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import type.CreateArticleInput
+import type.ModelArticleFilterInput
+import type.ModelStringFilterInput
 import java.io.File
 import java.lang.Exception
-import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 object ArticleClient {
     private const val TAG = "ArticleClient"
+    private var cacheListMap = mutableMapOf<ArticleCategory, Articles>()
 
-    //TODO add pass category as arg
-    suspend fun listArticles(appSyncClient: AWSAppSyncClient): Articles {
+    suspend fun listArticles(
+        appSyncClient: AWSAppSyncClient,
+        category: ArticleCategory
+    ): Articles {
+        if (cacheListMap[category] != null) return cacheListMap[category]!!
+        cacheListMap[category] = Articles(mutableListOf())
+
         return withContext(Dispatchers.Default) {
-            list(appSyncClient)
+            val articles = list(appSyncClient, category)
+            cacheListMap[category] = articles
+            articles
         }
     }
 
@@ -67,19 +77,9 @@ object ArticleClient {
     fun saveArticle(
         appSyncClient: AWSAppSyncClient,
         article: Article,
+        category: ArticleCategory,
         block: Boolean.() -> Unit
     ) {
-        val mutationCallback = object : GraphQLCall.Callback<CreateArticleMutation.Data>() {
-            override fun onResponse(response: com.apollographql.apollo.api.Response<CreateArticleMutation.Data>) {
-                Log.d("CreateCommentMutation", response.data().toString())
-                block(true)
-            }
-
-            override fun onFailure(e: ApolloException) {
-                Log.e("Error", e.toString())
-                block(false)
-            }
-        }
         val createCommentMutation =
             CreateArticleMutation.builder()
                 .input(
@@ -92,14 +92,40 @@ object ArticleClient {
                         .build()
                 )
                 .build()
-        appSyncClient.mutate(createCommentMutation)
-            .enqueue(mutationCallback)
+        val mutateCall = appSyncClient.mutate(createCommentMutation)
+        val mutationCallback = object : GraphQLCall.Callback<CreateArticleMutation.Data>() {
+            override fun onResponse(response: com.apollographql.apollo.api.Response<CreateArticleMutation.Data>) {
+                Log.d("CreateCommentMutation", response.data().toString())
+                cacheListMap[category]!!.articleList.add(article)
+                block(true)
+                mutateCall.cancel()
+            }
+
+            override fun onFailure(e: ApolloException) {
+                Log.e("Error", e.toString())
+                block(false)
+                mutateCall.cancel()
+            }
+        }
+        mutateCall.enqueue(mutationCallback)
     }
 
-    private suspend fun list(appSyncClient: AWSAppSyncClient): Articles {
+    private suspend fun list(
+        appSyncClient: AWSAppSyncClient,
+        category: ArticleCategory
+    ): Articles {
         return suspendCoroutine { continuation ->
-            val queueCall = appSyncClient.query(ListArticlesQuery.builder().build())
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+            val queueCall = appSyncClient.query(
+                ListArticlesQuery.builder().filter(
+                    ModelArticleFilterInput.builder().category(
+                        ModelStringFilterInput.builder().eq(
+                            category.name
+                        ).build()
+                    ).build()
+                )
+                    .limit(20)
+                    .build()
+            ).responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
 
             val listCallback = object : GraphQLCall.Callback<ListArticlesQuery.Data>() {
                 override fun onResponse(response: com.apollographql.apollo.api.Response<ListArticlesQuery.Data>) {
@@ -114,7 +140,10 @@ object ArticleClient {
                                 id = it.id(),
                                 title = it.title(),
                                 subTitle = it.subTitle(),
-                                mainImageUrl = it.mainImageUrl()
+                                text = it.text(),
+                                mainImageUrl = it.mainImageUrl(),
+                                category = it.category()?.run { ArticleCategory.valueOf(this) }
+                                    ?: ArticleCategory.PICKUP
                             ))
                         )
                     }
@@ -130,5 +159,9 @@ object ArticleClient {
             }
             queueCall.enqueue(listCallback)
         }
+    }
+
+    fun clearCache() {
+        cacheListMap.clear()
     }
 }

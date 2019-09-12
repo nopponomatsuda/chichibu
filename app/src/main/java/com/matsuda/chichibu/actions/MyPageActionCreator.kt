@@ -29,9 +29,10 @@ object MyPageActionCreator {
     fun addFavorite(
         appSyncClient: AWSAppSyncClient,
         articleId: String,
+        category: ArticleCategory,
         block: Boolean.() -> Unit
     ) {
-        MyFavoriteClient.addFavorite(appSyncClient, articleId) {
+        MyFavoriteClient.addFavorite(appSyncClient, articleId, category) {
             block(this)
             if (this) {
                 GlobalScope.launch {
@@ -43,15 +44,17 @@ object MyPageActionCreator {
         }
     }
 
+    fun clearFavoriteCache() {
+        MyFavoriteClient.clearCache()
+    }
+
     private fun fetch(appSyncClient: AWSAppSyncClient, category: ArticleCategory) {
         GlobalScope.launch {
             val articleList = mutableListOf<Article>()
-            MyFavoriteClient.listFavorites(appSyncClient)
+            MyFavoriteClient.listFavorites(appSyncClient, category)
                 .forEach {
                     val article = DetailClient.getArticle(appSyncClient, it)
-                    article?.run {
-                        if (this.category == category) articleList.add(this)
-                    }
+                    article?.run { articleList.add(this) }
                 }
 
             when (category) {
@@ -62,10 +65,10 @@ object MyPageActionCreator {
                     Dispatcher.dispatch(MyPageAction.RefreshFoods(Articles(articleList)))
                 }
                 ArticleCategory.NEWS -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshEvents(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshNews(Articles(articleList)))
                 }
                 ArticleCategory.EVENT -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshNews(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshEvents(Articles(articleList)))
                 }
             }
         }

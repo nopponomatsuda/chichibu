@@ -9,4 +9,6 @@
     <dimen name="home_pickup_list_item_category_text_size">10sp</dimen>
     <dimen name="home_pickup_list_item_title_text_size">16sp</dimen>
     <dimen name="home_pickup_list_item_body_text_size">10sp</dimen>
+
+    <dimen name="detail_main_image_height">200dp</dimen>
 </resources>

@@ -13,6 +13,7 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.common.ArticleCategory
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
@@ -58,7 +59,7 @@ class EventFragment : Fragment() {
                     override fun onClick(view: View, data: BaseObservable) {
                         data as Article
                         val fragmentManager = parentFragment?.fragmentManager ?: return
-                        ViewNavigator.moveToDetail(fragmentManager, data.id)
+                        ViewNavigator.moveToDetail(fragmentManager, data.id, ArticleCategory.EVENT)
                     }
                 }
             }

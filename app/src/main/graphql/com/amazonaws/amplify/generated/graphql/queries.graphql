@@ -31,6 +31,7 @@ query GetFavorite($id: ID!) {
     id
     userId
     articleId
+    category
   }
 }
 query ListFavorites(
@@ -43,6 +44,7 @@ query ListFavorites(
       id
       userId
       articleId
+      category
     }
     nextToken
   }

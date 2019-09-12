@@ -13,8 +13,9 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.view.parts.MasonryAdapter
-import com.matsuda.chichibu.data.Food
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import com.matsuda.chichibu.stores.FoodStore
@@ -56,9 +57,9 @@ class FoodFragment : Fragment() {
             ).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {
-                        data as Food
+                        data as Article
                         val fragmentManager = parentFragment?.fragmentManager ?: return
-                        ViewNavigator.moveToDetail(fragmentManager, data.id)
+                        ViewNavigator.moveToDetail(fragmentManager, data.id, ArticleCategory.FOOD)
                     }
                 }
             }
