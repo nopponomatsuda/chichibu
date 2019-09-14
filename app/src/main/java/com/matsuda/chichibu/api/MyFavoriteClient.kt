@@ -8,7 +8,7 @@ import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers
 import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.exception.ApolloException
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import type.CreateFavoriteInput

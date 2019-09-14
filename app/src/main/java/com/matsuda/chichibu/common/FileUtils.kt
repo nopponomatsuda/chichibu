@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common.util
+package com.matsuda.chichibu.common
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -11,7 +11,9 @@ object FileUtils {
     private const val TEMP_FILE_NAME = "temp_upload_image"
 
     fun createUploadFile(context: Context, bitmap: Bitmap): File {
-        val file = File(File(context.externalCacheDir?.toURI()), TEMP_FILE_NAME)
+        val file = File(File(context.externalCacheDir?.toURI()),
+            TEMP_FILE_NAME
+        )
         var fos: FileOutputStream? = null
         try {
             file.createNewFile()

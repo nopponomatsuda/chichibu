@@ -6,12 +6,17 @@ interface Action<out T> {
     val data: T
 }
 
+sealed class AreaAction<out T> : Action<T> {
+    class RefreshAreas(override val data: List<Area>) : AreaAction<List<Area>>()
+}
+
 sealed class ArticleAction<out T> : Action<T> {
     class RefreshPickups(override val data: Articles) : ArticleAction<Articles>()
     class RefreshFoods(override val data: Articles) : ArticleAction<Articles>()
     class RefreshEvents(override val data: Articles) : ArticleAction<Articles>()
     class RefreshNews(override val data: Articles) : ArticleAction<Articles>()
 }
+
 sealed class DetailAction<out T> : Action<T> {
     class ShowArticleDetail(override val data: Article) : DetailAction<Article>()
 }

@@ -2,7 +2,7 @@ package com.matsuda.chichibu.actions
 
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.matsuda.chichibu.api.*
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.data.Articles
 import com.matsuda.chichibu.dispatchers.Dispatcher

@@ -1,7 +1,6 @@
 package com.matsuda.chichibu.view.article.pages
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +11,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.actions.ActionsCreator
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.actions.ArticleActionCreator
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ArticleFragmentBinding
@@ -41,15 +40,15 @@ class NewsFragment : Fragment() {
             container, false
         ) ?: return null
 
-        MainActivity.aWSAppSyncClient?.run {
-            ActionsCreator.fetchNews(this)
-        }
-
         binding?.run {
             viewModel = listStore
             lifecycleOwner = this@NewsFragment
         }
         listStore.loading.postValue(true)
+
+        MainActivity.aWSAppSyncClient?.run {
+            ArticleActionCreator.fetchNews(this)
+        }
 
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {

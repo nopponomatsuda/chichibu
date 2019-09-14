@@ -2,12 +2,18 @@ package com.matsuda.chichibu.view.navigator
 
 import androidx.fragment.app.FragmentManager
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
+import com.matsuda.chichibu.view.AreaFragment
 import com.matsuda.chichibu.view.DetailFragment
 import com.matsuda.chichibu.view.article.ViewPagerFragment
 import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
 
 object ViewNavigator {
+    fun moveToAreaPage(fragmentManager: FragmentManager) {
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, AreaFragment())
+            .commit()
+    }
 
     fun moveToHome(fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()

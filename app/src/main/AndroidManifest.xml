@@ -31,8 +31,7 @@
 
         <activity android:name=".AuthenticatorActivity"
                 android:noHistory="true"/>
-        <activity android:name=".view.CreateArticleActivity"
-                android:noHistory="true"/>
+        <activity android:name=".view.create.CreateArticleActivity" />
 
         <activity
                 android:name="com.facebook.FacebookActivity"

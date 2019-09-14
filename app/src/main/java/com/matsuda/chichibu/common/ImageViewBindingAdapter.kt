@@ -1,10 +1,8 @@
-package com.matsuda.chichibu.common.util
+package com.matsuda.chichibu.common
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.request.RequestOptions
-import com.matsuda.chichibu.R
-import com.matsuda.chichibu.common.GlideApp
 import kotlin.math.roundToInt
 
 object ImageViewBindingAdapter {
@@ -20,7 +18,10 @@ object ImageViewBindingAdapter {
         imageUrl ?: return
 
         //TODO
-        val length = DimenUtils.convertDp2Px(size?.toFloat() ?: 150F, imageView.context)
+        val length = DimenUtils.convertDp2Px(
+            size?.toFloat() ?: 150F,
+            imageView.context
+        )
         GlideApp.with(imageView.context)
             .load(imageUrl)
             .apply(RequestOptions().override(length.roundToInt(), length.roundToInt()))

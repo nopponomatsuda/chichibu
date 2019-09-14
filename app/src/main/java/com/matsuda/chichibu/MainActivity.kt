@@ -3,10 +3,8 @@ package com.matsuda.chichibu
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import com.amazonaws.mobile.client.AWSMobileClient
 import com.amazonaws.mobile.client.Callback
 import com.amazonaws.mobile.client.UserState
@@ -14,9 +12,9 @@ import com.amazonaws.mobile.client.UserStateDetails
 import com.amazonaws.mobile.config.AWSConfiguration
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
-import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.actions.ArticleActionCreator
 import com.matsuda.chichibu.actions.MyPageActionCreator
-import com.matsuda.chichibu.view.CreateArticleActivity
+import com.matsuda.chichibu.view.create.CreateArticleActivity
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onError(e: Exception) {
-                Log.e("initialize", "Error during initialization", e)
+                Log.e(TAG, "Error during initialization", e)
             }
         })
     }
@@ -61,37 +59,38 @@ class MainActivity : AppCompatActivity() {
             }).build()
     }
 
-    override fun onPause() {
-        super.onPause()
-        //TODO handle in MyPageViewPagerFragment
-        MyPageActionCreator.clearFavoriteCache()
-        ActionsCreator.clearArticleCache()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         aWSAppSyncClient?.clearCaches()
         aWSAppSyncClient = null
+        //TODO handle in MyPageViewPagerFragment
+        MyPageActionCreator.clearFavoriteCache()
+        ArticleActionCreator.clearArticleCache()
     }
 
     private fun setUpView() {
         setContentView(R.layout.activity_main)
         ViewNavigator.moveToHome(supportFragmentManager)
+
         val navView = nav_view as BottomNavigationView
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.navigation_dashboard ->
+                R.id.navigation_favorite ->
                     ViewNavigator.moveToMyPage(supportFragmentManager)
-                R.id.navigation_create_article -> {
-                    startActivity(Intent(this, CreateArticleActivity::class.java))
-                }
                 R.id.navigation_login -> {
                     moveToLoginPage()
+                }
+                R.id.navigation_search -> {
+                    ViewNavigator.moveToAreaPage(supportFragmentManager)
                 }
                 else ->
                     ViewNavigator.moveToHome(supportFragmentManager)
             }
             false
+        }
+
+        fab.setOnClickListener {
+            startActivity(Intent(this, CreateArticleActivity::class.java))
         }
     }
 

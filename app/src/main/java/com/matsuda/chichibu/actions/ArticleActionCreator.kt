@@ -3,14 +3,14 @@ package com.matsuda.chichibu.actions
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.matsuda.chichibu.api.*
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.dispatchers.Dispatcher
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 
-object ActionsCreator {
+object ArticleActionCreator {
     fun fetchPickups(appSyncClient: AWSAppSyncClient) {
         fetch(appSyncClient, ArticleCategory.PICKUP)
     }

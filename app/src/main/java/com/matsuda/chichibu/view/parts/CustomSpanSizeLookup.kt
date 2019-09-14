@@ -62,12 +62,18 @@ object CustomSpanSizeLookup {
         }
     }
 
-    object Mypage : GridLayoutManager.SpanSizeLookup() {
+    object MyPage : GridLayoutManager.SpanSizeLookup() {
         override fun getSpanSize(position: Int): Int {
             return when (position) {
-                0, 1-> 3
+                0, 1 -> 3
                 else -> 6
             }
+        }
+    }
+
+    object AreaPpage : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+            return 6
         }
     }
 }

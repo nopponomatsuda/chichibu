@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common.util
+package com.matsuda.chichibu.common
 
 import android.content.Context
 

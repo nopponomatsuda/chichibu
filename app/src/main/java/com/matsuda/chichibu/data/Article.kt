@@ -1,7 +1,6 @@
 package com.matsuda.chichibu.data
 
 import androidx.databinding.BaseObservable
-import com.matsuda.chichibu.common.ArticleCategory
 import java.util.*
 
 data class Article(

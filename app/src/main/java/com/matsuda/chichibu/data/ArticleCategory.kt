@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.common
+package com.matsuda.chichibu.data
 
 enum class ArticleCategory(val iconResourceId: Int) {
     PICKUP(android.R.drawable.ic_dialog_info),

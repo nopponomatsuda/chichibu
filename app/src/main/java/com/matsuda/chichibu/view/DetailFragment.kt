@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import com.matsuda.chichibu.actions.ActionsCreator
+import com.matsuda.chichibu.actions.ArticleActionCreator
 import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.databinding.DetailFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
@@ -18,7 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 
 class DetailFragment : Fragment() {
     private val detailStore: DetailStore by lazy {
@@ -61,7 +61,7 @@ class DetailFragment : Fragment() {
         val articleId = arguments?.getString(Constant.BUNDLE_KEY_ARTICLE_ID) ?: return null
         val category = arguments?.getString(Constant.BUNDLE_KEY_ARTICLE_CATEGORY) ?: return null
         MainActivity.aWSAppSyncClient?.run {
-            ActionsCreator.showDetail(this, articleId)
+            ArticleActionCreator.showDetail(this, articleId)
 
             binding?.favoriteIcon?.setOnClickListener {
 

@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.view
+package com.matsuda.chichibu.view.create
 
 import android.content.Context
 import android.os.Bundle
@@ -27,11 +27,11 @@ import android.widget.Toast.LENGTH_LONG
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.matsuda.chichibu.common.GlideApp
-import com.matsuda.chichibu.common.util.FileUtils
+import com.matsuda.chichibu.common.FileUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.matsuda.chichibu.actions.ActionsCreator
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.actions.ArticleActionCreator
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.ActivityCreateArticleBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
@@ -83,7 +83,9 @@ class CreateArticleActivity : AppCompatActivity() {
                 type = "image/*"
                 addCategory(Intent.CATEGORY_OPENABLE)
                 action = Intent.ACTION_OPEN_DOCUMENT
-            }, REQUEST_PICK_UP_IMAGE)
+            },
+                REQUEST_PICK_UP_IMAGE
+            )
         }
 
         upload_button.setOnClickListener {
@@ -103,7 +105,7 @@ class CreateArticleActivity : AppCompatActivity() {
             val key = "public/$uniqueID.jpg"
 
 
-            ActionsCreator.uploadFile(transferUtility, uploadFile, key) {
+            ArticleActionCreator.uploadFile(transferUtility, uploadFile, key) {
                 if (!this) return@uploadFile
 
                 val tuConfig =
@@ -112,7 +114,7 @@ class CreateArticleActivity : AppCompatActivity() {
                 article.mainImageUrl = "https://$defaultBucket.s3.amazonaws.com/$key"
                 article.category = ArticleCategory.valueOf(category.selectedItem as String)
 
-                ActionsCreator.saveArticle(appSyncClient, article) {
+                ArticleActionCreator.saveArticle(appSyncClient, article) {
                     Handler(Looper.getMainLooper()).post {
                         detailStore.loading.postValue(false)
                         binding?.loading?.hide()

@@ -5,11 +5,13 @@ type Article @model {
   mainImageUrl:String
   subTitle: String
   category:String
+  createdAt: AWSDateTime!
 }
 
-type Favorite @model {
+type Favorite @model{
   id: ID!
   userId:String
   articleId: String
   category:String
+  createdAt: AWSDateTime!
 }

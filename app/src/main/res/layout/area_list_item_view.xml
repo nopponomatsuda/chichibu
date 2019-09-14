@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+                name="area"
+                type="com.matsuda.chichibu.data.Area" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/home_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:padding="@dimen/home_pickup_list_margin">
+
+        <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/card_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/home_pickup_list_item_category_text_start_end_margin"
+                android:alpha="0.7"
+                android:gravity="start"
+                android:text="@{area.name}"
+                android:textSize="@dimen/home_pickup_list_item_body_text_size"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

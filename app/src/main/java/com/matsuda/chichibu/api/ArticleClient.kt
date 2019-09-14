@@ -10,7 +10,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferState
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility
 import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.exception.ApolloException
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.data.Articles
 import kotlinx.coroutines.Dispatchers

@@ -13,7 +13,7 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
-import com.matsuda.chichibu.common.ArticleCategory
+import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.databinding.MypageArticleFragmentBinding
@@ -42,19 +42,19 @@ class MyPageNewsFragment : Fragment() {
             container, false
         ) ?: return null
 
-        MainActivity.aWSAppSyncClient?.run {
-            MyPageActionCreator.fetchNews(this)
-        }
-
         binding?.run {
             viewModel = listStore
             lifecycleOwner = this@MyPageNewsFragment
         }
         listStore.loading.postValue(true)
 
+        MainActivity.aWSAppSyncClient?.run {
+            MyPageActionCreator.fetchNews(this)
+        }
+
         binding?.articleList?.run {
             layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
-                spanSizeLookup = CustomSpanSizeLookup.Mypage
+                spanSizeLookup = CustomSpanSizeLookup.MyPage
             }
             adapter = MasonryAdapter(
                 context,

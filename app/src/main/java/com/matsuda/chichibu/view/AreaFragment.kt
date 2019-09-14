@@ -1,7 +1,6 @@
-package com.matsuda.chichibu.view.mypage.pages
+package com.matsuda.chichibu.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,21 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
-import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.actions.MyPageActionCreator
-import com.matsuda.chichibu.data.ArticleCategory
-import com.matsuda.chichibu.view.parts.MasonryAdapter
-import com.matsuda.chichibu.data.Article
-import com.matsuda.chichibu.databinding.MypageArticleFragmentBinding
+import com.matsuda.chichibu.actions.AreaActionCreator
+import com.matsuda.chichibu.data.Area
+import com.matsuda.chichibu.databinding.AreaFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
-import com.matsuda.chichibu.stores.mypage.MypagePickupStore
+import com.matsuda.chichibu.stores.AreaStore
 import com.matsuda.chichibu.view.navigator.ViewNavigator
 import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
+import com.matsuda.chichibu.view.parts.MasonryAdapter
 
-class MyPagePickupFragment : Fragment() {
-    private var binding: MypageArticleFragmentBinding? = null
-    private val listStore = MypagePickupStore()
+class AreaFragment : Fragment() {
+    private var binding: AreaFragmentBinding? = null
+    private val listStore = AreaStore()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,37 +33,37 @@ class MyPagePickupFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("BaseFragment", "onCreateView")
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.mypage_article_fragment,
+            inflater, R.layout.area_fragment,
             container, false
         ) ?: return null
 
+        listStore.loading.postValue(true)
+        AreaActionCreator.fetchAreas()
+
         binding?.run {
             viewModel = listStore
-            lifecycleOwner = this@MyPagePickupFragment
-        }
-        listStore.loading.postValue(true)
-
-        MainActivity.aWSAppSyncClient?.run {
-            MyPageActionCreator.fetchPickups(this)
+            lifecycleOwner = this@AreaFragment
         }
 
         binding?.articleList?.run {
-            layoutManager = GridLayoutManager(context, CustomSpanSizeLookup.SPAN_COUNT).apply {
-                spanSizeLookup = CustomSpanSizeLookup.MyPage
+            layoutManager = GridLayoutManager(
+                context, CustomSpanSizeLookup.SPAN_COUNT
+            ).apply {
+                spanSizeLookup = CustomSpanSizeLookup.AreaPpage
             }
             adapter = MasonryAdapter(
                 context,
                 listStore.list,
-                R.layout.mypage_list_item_view,
-                BR.article
+                R.layout.area_list_item_view,
+                BR.area
             ).apply {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {
-                        data as Article
-                        val fragmentManager = parentFragment?.fragmentManager ?: return
-                        ViewNavigator.moveToDetail(fragmentManager, data.id, ArticleCategory.PICKUP)
+                        data as Area
+                        fragmentManager?.run {
+                            ViewNavigator.moveToHome(this)
+                        }
                     }
                 }
             }
