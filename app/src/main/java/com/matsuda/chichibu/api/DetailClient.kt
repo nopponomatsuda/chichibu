@@ -1,6 +1,7 @@
 package com.matsuda.chichibu.api
 
 import android.util.Log
+import com.amazonaws.amplify.generated.graphql.CreateArticleMutation
 import com.amazonaws.amplify.generated.graphql.GetArticleQuery
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers
@@ -8,6 +9,7 @@ import com.apollographql.apollo.GraphQLCall
 import com.apollographql.apollo.api.Response
 import com.apollographql.apollo.exception.ApolloException
 import com.matsuda.chichibu.data.Article
+import com.matsuda.chichibu.data.ArticleCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
@@ -30,13 +32,7 @@ object DetailClient {
                 override fun onResponse(response: Response<GetArticleQuery.Data>) {
                     Log.i(TAG, "onResponse : ${response.data()?.article.toString()}")
                     val data = response.data()?.article ?: return
-                    val article = Article(
-                        id = data.id(),
-                        title = data.title(),
-                        subTitle = data.subTitle(),
-                        mainImageUrl = data.mainImageUrl()
-                    )
-                    continuation.resume(article)
+                    continuation.resume(mapDataToArticle(data))
                     queueCall.cancel()
                 }
 
@@ -50,4 +46,18 @@ object DetailClient {
         }
     }
 
+    //TODO move mapping class
+    private fun mapDataToArticle(data: GetArticleQuery.GetArticle): Article {
+        data.apply {
+            return Article(
+                id = id(),
+                title = title(),
+                subTitle = subTitle(),
+                text = text(),
+                mainImageUrl = mainImageUrl(),
+                category = category()?.run { ArticleCategory.valueOf(this) }
+                    ?: ArticleCategory.PICKUP
+            )
+        }
+    }
 }

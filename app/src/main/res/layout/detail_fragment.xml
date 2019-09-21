@@ -10,7 +10,7 @@
 
     <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/article_detail_background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -118,24 +118,10 @@
                     android:layout_marginVertical="20dp"
                     android:adjustViewBounds="true"
                     app:imageUrl="@{viewModel.article.subImageUrls[0]}"
-                    app:layout_constraintBottom_toTopOf="@+id/sub_image11"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/card_text"
-                    app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/sub_image11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:layout_marginVertical="20dp"
-                    android:adjustViewBounds="true"
-                    app:imageUrl="@{viewModel.article.subImageUrls[0]}"
                     app:layout_constraintBottom_toTopOf="@+id/sub_image2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sub_image1"
+                    app:layout_constraintTop_toBottomOf="@id/card_text"
                     app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <androidx.appcompat.widget.AppCompatImageView
@@ -145,11 +131,25 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_marginVertical="20dp"
                     android:adjustViewBounds="true"
+                    app:imageUrl="@{viewModel.article.subImageUrls[0]}"
+                    app:layout_constraintBottom_toTopOf="@+id/sub_image3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sub_image1"
+                    app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/sub_image3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginVertical="20dp"
+                    android:adjustViewBounds="true"
                     app:imageUrl="@{viewModel.article.subImageUrls[1]}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/sub_image1"
+                    app:layout_constraintTop_toBottomOf="@id/sub_image3"
                     app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
 

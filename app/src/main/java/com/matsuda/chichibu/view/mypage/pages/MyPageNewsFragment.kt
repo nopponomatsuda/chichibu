@@ -13,6 +13,7 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.MyPageActionCreator
+import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
@@ -25,6 +26,16 @@ import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 class MyPageNewsFragment : Fragment() {
     private var binding: MypageArticleFragmentBinding? = null
     private val listStore = MypageNewsStore()
+
+    companion object {
+        fun newInstance(areaId: String): MyPageNewsFragment {
+            return MyPageNewsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(Constant.BUNDLE_KEY_AREA_ID, areaId)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +57,6 @@ class MyPageNewsFragment : Fragment() {
             viewModel = listStore
             lifecycleOwner = this@MyPageNewsFragment
         }
-        listStore.loading.postValue(true)
 
         MainActivity.aWSAppSyncClient?.run {
             MyPageActionCreator.fetchNews(this)

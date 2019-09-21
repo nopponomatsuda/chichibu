@@ -1,4 +1,4 @@
-package com.matsuda.chichibu
+package com.matsuda.chichibu.view.owner
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,15 +12,15 @@ import com.amazonaws.mobile.client.UserStateDetails
 import com.amazonaws.mobile.config.AWSConfiguration
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient
 import com.amazonaws.mobileconnectors.appsync.sigv4.CognitoUserPoolsAuthProvider
+import com.matsuda.chichibu.AuthenticatorActivity
+import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ArticleActionCreator
 import com.matsuda.chichibu.actions.MyPageActionCreator
-import com.matsuda.chichibu.view.owner.CreateArticleActivity
 import com.matsuda.chichibu.view.navigator.ViewNavigator
-import com.matsuda.chichibu.view.owner.OwnerActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.owner_activity_main.*
 import java.lang.Exception
 
-class MainActivity : AppCompatActivity() {
+class OwnerActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "MainActivity"
         var aWSAppSyncClient: AWSAppSyncClient? = null
@@ -70,22 +70,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUpView() {
-        setContentView(R.layout.activity_main)
-        ViewNavigator.moveToHome(supportFragmentManager)
+        setContentView(R.layout.owner_activity_main)
+        ViewNavigator.moveToOwnerHome(supportFragmentManager)
 
         val navView = nav_view as BottomNavigationView
         navView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.navigation_favorite ->
-                    ViewNavigator.moveToMyPage(supportFragmentManager)
-                R.id.navigation_login ->
-                    ViewNavigator.moveToProfilePage(supportFragmentManager)
                 R.id.navigation_search ->
                     ViewNavigator.moveToAreaPage(supportFragmentManager)
                 else ->
-                    ViewNavigator.moveToHome(supportFragmentManager)
+                    ViewNavigator.moveToOwnerHome(supportFragmentManager)
             }
             false
+        }
+
+        fab.setOnClickListener {
+            startActivity(
+                Intent(this, CreateArticleActivity::class.java)
+            )
         }
     }
 

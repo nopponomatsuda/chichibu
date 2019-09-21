@@ -3,27 +3,55 @@ package com.matsuda.chichibu.view.navigator
 import androidx.fragment.app.FragmentManager
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.data.ArticleCategory
-import com.matsuda.chichibu.view.AreaFragment
+import com.matsuda.chichibu.data.Prefecture
 import com.matsuda.chichibu.view.DetailFragment
+import com.matsuda.chichibu.view.account.ProfileFragment
 import com.matsuda.chichibu.view.article.ViewPagerFragment
 import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
+import com.matsuda.chichibu.view.owner.OwnerViewPagerFragment
+import com.matsuda.chichibu.view.search.AreaFragment
 
 object ViewNavigator {
-    fun moveToAreaPage(fragmentManager: FragmentManager) {
+
+    fun moveToOwnerHome(
+        fragmentManager: FragmentManager,
+        areaId: String = Prefecture.ALL.areaId.toString()
+    ) {
         fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, AreaFragment())
+            .replace(R.id.fragment_container, OwnerViewPagerFragment.newInstance(areaId))
             .commit()
     }
 
-    fun moveToHome(fragmentManager: FragmentManager) {
+    fun moveToProfilePage(fragmentManager: FragmentManager) {
         fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, ViewPagerFragment())
+            .replace(R.id.fragment_container, ProfileFragment.newInstance())
             .commit()
     }
 
-    fun moveToMyPage(fragmentManager: FragmentManager) {
+    fun moveToAreaPage(
+        fragmentManager: FragmentManager,
+        areaId: String = Prefecture.ALL.areaId.toString()
+    ) {
         fragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, MyPageViewPagerFragment())
+            .replace(R.id.fragment_container, AreaFragment.newInstance(areaId))
+            .commit()
+    }
+
+    fun moveToHome(
+        fragmentManager: FragmentManager,
+        areaId: String = Prefecture.ALL.areaId.toString()
+    ) {
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, ViewPagerFragment.newInstance(areaId))
+            .commit()
+    }
+
+    fun moveToMyPage(
+        fragmentManager: FragmentManager,
+        areaId: String = Prefecture.ALL.areaId.toString()
+    ) {
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, MyPageViewPagerFragment.newInstance(areaId))
             .commit()
     }
 

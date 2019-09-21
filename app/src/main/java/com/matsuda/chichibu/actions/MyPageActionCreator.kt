@@ -50,25 +50,26 @@ object MyPageActionCreator {
 
     private fun fetch(appSyncClient: AWSAppSyncClient, category: ArticleCategory) {
         GlobalScope.launch {
-            val articleList = mutableListOf<Article>()
-            MyFavoriteClient.listFavorites(appSyncClient, category)
-                .forEach {
-                    val article = DetailClient.getArticle(appSyncClient, it)
-                    article?.run { articleList.add(this) }
-                }
+            val favoriteLIst = MyFavoriteClient.listFavorites(appSyncClient, category)
+//                .forEach {
+//                    val article = DetailClient.getArticle(appSyncClient, it)
+//                    article?.run { articleList.add(this) }
+//                }
+
+            val articles = ArticleClient.getFavoriteList(appSyncClient, favoriteLIst)
 
             when (category) {
                 ArticleCategory.PICKUP -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshPickups(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshPickups(articles))
                 }
                 ArticleCategory.FOOD -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshFoods(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshFoods(articles))
                 }
                 ArticleCategory.NEWS -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshNews(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshNews(articles))
                 }
                 ArticleCategory.EVENT -> {
-                    Dispatcher.dispatch(MyPageAction.RefreshEvents(Articles(articleList)))
+                    Dispatcher.dispatch(MyPageAction.RefreshEvents(articles))
                 }
             }
         }

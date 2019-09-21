@@ -7,6 +7,10 @@ query GetArticle($id: ID!) {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 query ListArticles(
@@ -22,6 +26,10 @@ query ListArticles(
       mainImageUrl
       subTitle
       category
+      Address
+      Area1
+      Area2
+      authorId
     }
     nextToken
   }

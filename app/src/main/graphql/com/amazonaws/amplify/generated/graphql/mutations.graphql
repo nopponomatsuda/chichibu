@@ -7,6 +7,10 @@ mutation CreateArticle($input: CreateArticleInput!) {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 mutation UpdateArticle($input: UpdateArticleInput!) {
@@ -17,6 +21,10 @@ mutation UpdateArticle($input: UpdateArticleInput!) {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 mutation DeleteArticle($input: DeleteArticleInput!) {
@@ -27,6 +35,10 @@ mutation DeleteArticle($input: DeleteArticleInput!) {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 mutation CreateFavorite($input: CreateFavoriteInput!) {

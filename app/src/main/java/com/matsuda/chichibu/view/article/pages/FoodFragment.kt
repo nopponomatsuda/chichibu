@@ -12,6 +12,7 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ArticleActionCreator
+import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.data.Article
 import com.matsuda.chichibu.view.parts.MasonryAdapter
@@ -24,6 +25,16 @@ import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 class FoodFragment : Fragment() {
     private var binding: ArticleFragmentBinding? = null
     private val listStore = FoodStore()
+
+    companion object {
+        fun newInstance(areaId: String): FoodFragment {
+            return FoodFragment().apply {
+                arguments = Bundle().apply {
+                    putString(Constant.BUNDLE_KEY_AREA_ID, areaId)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +55,6 @@ class FoodFragment : Fragment() {
             viewModel = listStore
             lifecycleOwner = this@FoodFragment
         }
-        listStore.loading.postValue(true)
 
         MainActivity.aWSAppSyncClient?.run {
             ArticleActionCreator.fetchFoods(this)

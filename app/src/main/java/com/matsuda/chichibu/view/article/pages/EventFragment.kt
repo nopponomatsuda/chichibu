@@ -12,6 +12,7 @@ import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.MainActivity
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.ArticleActionCreator
+import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.data.ArticleCategory
 import com.matsuda.chichibu.view.parts.MasonryAdapter
 import com.matsuda.chichibu.data.Article
@@ -24,6 +25,16 @@ import com.matsuda.chichibu.view.parts.CustomSpanSizeLookup
 class EventFragment : Fragment() {
     private var binding: ArticleFragmentBinding? = null
     private val listStore = EventStore()
+
+    companion object {
+        fun newInstance(areaId: String): EventFragment {
+            return EventFragment().apply {
+                arguments = Bundle().apply {
+                    putString(Constant.BUNDLE_KEY_AREA_ID, areaId)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +55,6 @@ class EventFragment : Fragment() {
             viewModel = listStore
             lifecycleOwner = this@EventFragment
         }
-        listStore.loading.postValue(true)
 
         MainActivity.aWSAppSyncClient?.run {
             ArticleActionCreator.fetchEvents(this)

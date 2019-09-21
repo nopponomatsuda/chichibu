@@ -1,31 +1,34 @@
-package com.matsuda.chichibu.view.article
+package com.matsuda.chichibu.view.owner
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.matsuda.chichibu.R
-import com.matsuda.chichibu.view.article.pages.EventFragment
-import com.matsuda.chichibu.view.article.pages.FoodFragment
-import com.matsuda.chichibu.view.article.pages.NewsFragment
-import com.matsuda.chichibu.view.article.pages.PickupFragment
+import com.matsuda.chichibu.view.owner.pages.OwnerEventFragment
+import com.matsuda.chichibu.view.owner.pages.OwnerFoodFragment
+import com.matsuda.chichibu.view.owner.pages.OwnerNewsFragment
+import com.matsuda.chichibu.view.owner.pages.OwnerPickupFragment
 
-class TabAdapter(private val context: Context, fm: FragmentManager, private val areaId: String) :
-    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class OwnerTabAdapter(
+    private val context: Context,
+    fm: FragmentManager,
+    private val areaId: String
+) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                PickupFragment.newInstance(areaId)
+                OwnerPickupFragment.newInstance(areaId)
             }
             1 -> {
-                FoodFragment.newInstance(areaId)
+                OwnerFoodFragment.newInstance(areaId)
             }
             2 -> {
-                EventFragment.newInstance(areaId)
+                OwnerEventFragment.newInstance(areaId)
             }
             else -> {
-                NewsFragment.newInstance(areaId)
+                OwnerNewsFragment.newInstance(areaId)
             }
         }
     }

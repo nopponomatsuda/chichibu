@@ -12,5 +12,7 @@ data class Article(
     var date: Date = Date(),
     var likeCount: Int = 0,
     var subImageUrls: List<String> = mutableListOf(),
-    var category: ArticleCategory = ArticleCategory.PICKUP
+    var category: ArticleCategory = ArticleCategory.PICKUP,
+    var area1: Area? = null,
+    var area2: Area? = null
 ) : BaseObservable()

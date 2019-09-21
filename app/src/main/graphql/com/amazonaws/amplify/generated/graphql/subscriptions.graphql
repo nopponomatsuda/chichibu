@@ -7,6 +7,10 @@ subscription OnCreateArticle {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 subscription OnUpdateArticle {
@@ -17,6 +21,10 @@ subscription OnUpdateArticle {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 subscription OnDeleteArticle {
@@ -27,6 +35,10 @@ subscription OnDeleteArticle {
     mainImageUrl
     subTitle
     category
+    Address
+    Area1
+    Area2
+    authorId
   }
 }
 subscription OnCreateFavorite {

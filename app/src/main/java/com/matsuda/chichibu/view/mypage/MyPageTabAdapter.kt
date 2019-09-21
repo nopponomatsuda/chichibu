@@ -10,22 +10,25 @@ import com.matsuda.chichibu.view.mypage.pages.MyPageFoodFragment
 import com.matsuda.chichibu.view.mypage.pages.MyPageNewsFragment
 import com.matsuda.chichibu.view.mypage.pages.MyPagePickupFragment
 
-class MyPageTabAdapter(private val context: Context, fm: FragmentManager) :
-    FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
+class MyPageTabAdapter(
+    private val context: Context,
+    fm: FragmentManager,
+    private val areaId: String
+) : FragmentStatePagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
             0 -> {
-                MyPagePickupFragment()
+                MyPagePickupFragment.newInstance(areaId)
             }
             1 -> {
-                MyPageFoodFragment()
+                MyPageFoodFragment.newInstance(areaId)
             }
             2 -> {
-                MyPageEventFragment()
+                MyPageEventFragment.newInstance(areaId)
             }
             else -> {
-                MyPageNewsFragment()
+                MyPageNewsFragment.newInstance(areaId)
             }
         }
     }

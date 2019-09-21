@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.view.article
+package com.matsuda.chichibu.view.owner
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,14 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.common.Constant
-import com.matsuda.chichibu.view.mypage.MyPageViewPagerFragment
 import kotlinx.android.synthetic.main.view_pager_fragment.*
 
-class ViewPagerFragment : Fragment() {
+class OwnerViewPagerFragment : Fragment() {
 
     companion object {
-        fun newInstance(areaId: String): ViewPagerFragment {
-            return ViewPagerFragment().apply {
+        fun newInstance(areaId: String): OwnerViewPagerFragment {
+            return OwnerViewPagerFragment().apply {
                 arguments = Bundle().apply {
                     putString(Constant.BUNDLE_KEY_AREA_ID, areaId)
                 }
@@ -37,7 +36,7 @@ class ViewPagerFragment : Fragment() {
 
         if (savedInstanceState == null) {
             viewPager.run {
-                adapter = TabAdapter(context, childFragmentManager, areaId)
+                adapter = OwnerTabAdapter(context, childFragmentManager, areaId)
                 offscreenPageLimit = 2
             }
             tabLayout.setupWithViewPager(viewPager)

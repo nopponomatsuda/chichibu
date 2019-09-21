@@ -1,4 +1,4 @@
-package com.matsuda.chichibu.view
+package com.matsuda.chichibu.view.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.matsuda.chichibu.BR
 import com.matsuda.chichibu.R
 import com.matsuda.chichibu.actions.AreaActionCreator
+import com.matsuda.chichibu.common.Constant
 import com.matsuda.chichibu.data.Area
 import com.matsuda.chichibu.databinding.AreaFragmentBinding
 import com.matsuda.chichibu.dispatchers.Dispatcher
@@ -22,6 +23,16 @@ import com.matsuda.chichibu.view.parts.MasonryAdapter
 class AreaFragment : Fragment() {
     private var binding: AreaFragmentBinding? = null
     private val listStore = AreaStore()
+
+    companion object {
+        fun newInstance(areaId: String): AreaFragment {
+            return AreaFragment().apply {
+                arguments = Bundle().apply {
+                    putString(Constant.BUNDLE_KEY_AREA_ID, areaId)
+                }
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +50,9 @@ class AreaFragment : Fragment() {
         ) ?: return null
 
         listStore.loading.postValue(true)
-        AreaActionCreator.fetchAreas()
+
+        val areaId = arguments?.getString(Constant.BUNDLE_KEY_AREA_ID)
+        AreaActionCreator.fetchAreas(areaId)
 
         binding?.run {
             viewModel = listStore
@@ -61,8 +74,14 @@ class AreaFragment : Fragment() {
                 listener = object : MasonryAdapter.OnItemClickListener {
                     override fun onClick(view: View, data: BaseObservable) {
                         data as Area
-                        fragmentManager?.run {
-                            ViewNavigator.moveToHome(this)
+                        if (data.hasChild) {
+                            fragmentManager?.run {
+                                ViewNavigator.moveToAreaPage(this, data.id)
+                            }
+                        } else {
+                            fragmentManager?.run {
+                                ViewNavigator.moveToHome(this)
+                            }
                         }
                     }
                 }

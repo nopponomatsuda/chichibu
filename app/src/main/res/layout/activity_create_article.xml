@@ -4,11 +4,12 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
                 name="viewModel"
-                type="com.matsuda.chichibu.stores.DetailStore" />
-        <import type="android.view.View"/>
+                type="com.matsuda.chichibu.stores.OwnerStore" />
+        <import type="com.matsuda.chichibu.data.ArticleCategory" />
+        <import type="kotlin.collections.ArraysKt"/>
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,11 +46,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:adjustViewBounds="true"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        app:imageUrl="@{viewModel.article.mainImageUrl}"
                         app:layout_constraintBottom_toTopOf="@id/title"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/select_button"
-                        app:srcCompat="@drawable/com_facebook_profile_picture_blank_portrait" />
+                        app:srcCompat="@drawable/com_facebook_profile_picture_blank_portrait">
+
+                    <requestFocus />
+                </androidx.appcompat.widget.AppCompatImageView>
 
                 <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/title"
@@ -78,21 +85,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:text="@={viewModel.article.text}"
-                        app:layout_constraintBottom_toTopOf="@id/textPreview"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/subTitle" />
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/textPreview"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="@={viewModel.article.text}"
-                        android:textColor="@color/colorPrimary"
-                        app:layout_constraintBottom_toTopOf="@id/category"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                         android:id="@+id/category"
@@ -101,11 +96,39 @@
                         android:dropDownWidth="match_parent"
                         android:spinnerMode="dialog"
                         android:textColor="@color/colorPrimary"
-                        app:layout_constraintBottom_toTopOf="@id/upload_button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/textPreview" />
+                        app:layout_constraintTop_toBottomOf="@id/text"
+                        app:selectedCategoryValue="@={viewModel.article.category}" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/area1"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:dropDownWidth="match_parent"
+                        android:spinnerMode="dialog"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/category"
+                        app:isParent="@{true}"
+                        app:selectedAreaValue="@={viewModel.article.area1.name}" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/area2"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:dropDownWidth="match_parent"
+                        android:spinnerMode="dialog"
+                        android:textColor="@color/colorPrimary"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/area1"
+                        app:selectedAreaValue="@={viewModel.article.area2.name}"
+                        android:entries="@{viewModel.childAreas}"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/upload_button"
@@ -115,7 +138,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/category" />
+                        app:layout_constraintTop_toBottomOf="@+id/area2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
@@ -123,9 +146,9 @@
         <!--TODO update layout -->
         <androidx.core.widget.ContentLoadingProgressBar
                 android:id="@+id/loading"
+                style="@style/Widget.AppCompat.ProgressBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                style="@style/Widget.AppCompat.ProgressBar"
                 android:background="@color/browser_actions_bg_grey"
                 android:visibility="@{viewModel.loading ? View.VISIBLE : View.INVISIBLE}" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,10 @@ type Article @model {
   mainImageUrl:String
   subTitle: String
   category:String
-  createdAt: AWSDateTime!
+  Address:String
+  Area1:String
+  Area2:String
+  authorId:String
 }
 
 type Favorite @model{
@@ -13,5 +16,4 @@ type Favorite @model{
   userId:String
   articleId: String
   category:String
-  createdAt: AWSDateTime!
 }
